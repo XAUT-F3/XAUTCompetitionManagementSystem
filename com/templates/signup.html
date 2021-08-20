@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>西安理工大学竞赛管理系统-注册</title>
+    <meta name="description" content="西安理工大学统一竞赛管理平台-注册">
+    <meta name="keywords" content="西安理工大学,竞赛管理,竞赛系统,西安理工大学竞赛管理系统">
+    <link rel="shortcut icon" href="../static/favicon.ico">
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/signup.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap-datetimepicker.min.css">
+    <script src="../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/bootstrap/js/time/bootstrap-datetimepicker.min.js"></script>
+    <script src="../static/bootstrap/js/time/bootstrap-datetimepicker.zh-CN.js"></script>
+</head>
+<body>
+<form action="{% url 'signup' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container-fluid">
+        <div class="row background" style="height: 150px;">
+            <div class="col-md-2 white-font"></div>
+            <div class="col-md-6 white-font plus">
+                <span>西安理工大学竞赛管理系统</span>
+            </div>
+            <div class="col-md-4 white-font ">
+                <a href="login.html" class="white-font">已有账号，立刻登录</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid col-red background">
+        <div class="tell-font">
+            <span>* 注册分为3步，分别为【选择身份】、【填写信息】、【创建账户】，三步完成后，才能成功创建一个账户。</span><br>
+            <span>* 谨慎选择用户身份，一经选择不得更改。</span>
+        </div>
+
+    </div>
+    <!--跳转的头-->
+    <div class="background marl">
+        <ul class="nav nav-tabs" id="mar" role="tablist">
+            <li role="presentation" class="limit  active all-head">
+                <a href="#home" class="wid-mid" aria-controls="home" role="tab" data-toggle="tab"
+                   style="padding-left: 120px;">一、选择身份</a>
+            </li>
+            <li role="presentation" class="all-head">
+                <a href="#profile-student" class="wid-mid" aria-controls="profile-teacher" role="tab" data-toggle="tab"
+                   id="must1"
+                   style="padding-left: 120px">二、填写信息</a>
+            </li>
+            <li role="presentation" class="all-head">
+                <a href="#messages" class="wid-mid" aria-controls="messages" role="tab" data-toggle="tab" id="must2"
+                   style="padding-left: 120px">三、创建用户</a>
+            </li>
+        </ul>
+    </div>
+
+    <input type="radio" name="type" value="student" style="display: none">
+    <input type="radio" name="type" value="teacher" style="display: none">
+
+    <div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!--第一个页面-->
+            <div role="tabpanel" class="tab-pane active" id="home">
+                <div class="null"></div>
+                <div class="for-org">请选择您的身份</div>
+                <a href="#" id="student">
+                    <div class="role-type">
+                        <div class="brod brod-green">
+                            <span class="glyphicon glyphicon-grain font-green" id="green-icon"></span>
+                        </div>
+                        <button type="button" class="font-green brod-green" id="green-btn">我是参赛队员</button>
+
+                    </div>
+                </a>
+                <a href="#" id="teacher">
+                    <div class="role-type">
+                        <div class="brod brod-blue">
+                            <span class="glyphicon glyphicon-tree-deciduous font-blue" id="blue-icon"></span>
+                        </div>
+                        <button type="button" class="font-blue brod-blue" id="blue-btn">我是指导教师</button>
+                    </div>
+                </a>
+            </div>
+            <!--第二个页面 -- 学生-->
+            <div role="tabpanel" class="tab-pane" id="profile-student">
+                <div class="null"></div>
+                <div class="for-org">填写信息（参赛队员）</div>
+                <div class="col-xs-2"></div>
+                <div class="form-inline stu">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="student-name" style="margin-left: 55px">姓名</label>
+                            <input type="text" class="form-control" id="student-name" placeholder="Name" name="s_name">
+                        </div>
+
+                        <div class="form-group">
+                            <label style="margin-left: 55px">性别</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="s_sex" id="student-nan" value="1"> 男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="s_sex" id="student-nv" value="0"> 女
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-card">身份证件类型</label>
+                            <select class="form-control" id="student-card" name="s_certification_type">
+                                <option value="1">中华人民共和国居民身份证</option>
+                                <option value="2">军人证件</option>
+                                <option value="3">港澳台身份证件</option>
+                                <option value="4">华侨身份证</option>
+                                <option value="5">外籍护照</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-InputID">身份证件号码</label>
+                            <input type="text" class="form-control" id="student-InputID" placeholder="ID number"
+                                   name="s_id_number">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-date" style="margin-left: 27px">出生日期</label><input type="text"
+                                                                                                   id="student-date"
+                                                                                                   name="s_birthday"
+                                                                                                   placeholder="Birthday"
+                                                                                                   class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-type" style="margin-left: 27px">政治面貌</label>
+                            <select class="form-control" id="student-type" name="s_politics_status">
+                                <option value="1">中共党员</option>
+                                <option value="2">中共预备党员</option>
+                                <option value="3">共青团员</option>
+                                <option value="4">群众</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-email" style="margin-left: 27px">电子邮箱</label>
+                            <input type="email" class="form-control" id="student-email" placeholder="E-mail"
+                                   name="s_mail">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-phone" style="margin-left: 27px">电话号码</label>
+                            <input type="text" class="form-control" id="student-phone" maxlength="11" minlength="11"
+                                   placeholder="Phone" name="s_phone"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <label for="student-img-input" style="margin-left: 60px">照片</label>
+                            <img src="../static/images/none.png" alt="#" class="img-rounded reading">
+                            <input type="file" id="student-img-input" accept='image/*' name="s_picture">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-college" style="margin-left: 55px">学院</label>
+                            <input type="text" class="form-control" id="student-college" placeholder="College"
+                                   name="s_college">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-grade" style="margin-left: 55px">年级</label>
+                            <input type="text" class="form-control" id="student-grade" placeholder="Grade"
+                                   name="s_grade">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-class" style="margin-left: 55px">班级</label>
+                            <input type="text" class="form-control" id="student-class" placeholder="Class"
+                                   name="s_class">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-id" style="margin-left: 55px">学号</label>
+                            <input type="text" class="form-control" id="student-id" placeholder="Student id"
+                                   name="s_number">
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <button type="button" class="btn btn-primary pri-btn fir">上一步</button>
+                        <button type="button" class="btn btn-primary pri-btn" id="stu-btn">下一步</button>
+                    </div>
+                </div>
+            </div>
+            <!--第二个页面 -- 老师-->
+            <div role="tabpanel" class="tab-pane" id="profile-teacher">
+                <div class="null"></div>
+                <div class="for-org">填写信息（指导教师）</div>
+                <div class="col-xs-2"></div>
+                <div class="form-inline tea">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="exampleInputName2" style="margin-left: 55px">姓名</label>
+                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Name"
+                                   name="t_name">
+                        </div>
+                        <div class="form-group" id="block">
+                            <label style="margin-left: 55px">性别</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="t_sex" id="tea-nan" value="1"> 男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="t_sex" id="tea-nv" value="0"> 女
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="card">身份证件类型</label>
+                            <select class="form-control" id="card" name="t_politics_status">
+                                <option value="1">中华人民共和国居民身份证</option>
+                                <option value="2">军人证件</option>
+                                <option value="3">港澳台身份证件</option>
+                                <option value="4">华侨身份证</option>
+                                <option value="5">外籍护照</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="InputID">身份证件号码</label>
+                            <input type="text" class="form-control" id="InputID" placeholder="ID number"
+                                   name="t_id_number">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date" style="margin-left: 27px">出生日期</label><input type="text" id="date"
+                                                                                           name="t_birthday" value=""
+                                                                                           placeholder="Birthday"
+                                                                                           class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="type" style="margin-left: 27px">行政职务</label>
+                            <select class="form-control" id="type" name="t_position">
+                                <option value="0">无</option>
+                                <option value="1">校长</option>
+                                <option value="2">副校长</option>
+                                <option value="3">校长助理</option>
+                                <option value="4">院长</option>
+                                <option value="5">副院长</option>
+                                <option value="6">院长助理</option>
+                                <option value="7">处长</option>
+                                <option value="8">副处长</option>
+                                <option value="9">处长助理</option>
+                                <option value="10">部长</option>
+                                <option value="11">副部长</option>
+                                <option value="12">部长助理</option>
+                                <option value="13">主任</option>
+                                <option value="14">副主任</option>
+                                <option value="15">主任助理</option>
+                                <option value="16">所长</option>
+                                <option value="17">副所长</option>
+                                <option value="18">所长助理</option>
+                                <option value="19">系主任</option>
+                                <option value="20">副系主任</option>
+                                <option value="21">系主任助理</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" style="margin-left: 27px">电子邮箱</label>
+                            <input type="email" class="form-control" id="email" placeholder="E-mail" name="t_mail">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" style="margin-left: 27px">电话号码</label>
+                            <input type="text" class="form-control" id="phone" maxlength="11" minlength="11"
+                                   placeholder="Phone" name="t_phone"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <label for="teacher-img-input" style="margin-left: 60px">照片</label>
+                            <img src="../static/images/none.png" alt="#" class="img-rounded reading">
+                            <input type="file" id="teacher-img-input" accept='image/*' name="picture">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="college" style="margin-left: 55px">学院</label>
+                            <input type="text" class="form-control" id="college" placeholder="College"
+                                   name="t_ college">
+                        </div>
+                        <div class="form-group">
+                            <label for="grade" style="margin-left: 55px">职称</label>
+                            <select class="form-control" id="grade" name="t_title">
+                                <option value="1">无</option>
+                                <option value="2">高级</option>
+                                <option value="3">副高级</option>
+                                <option value="4">中级</option>
+                                <option value="5">初级</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="department" style="margin-left: 40px">所在系</label>
+                            <input type="text" class="form-control" id="department" placeholder="Department"
+                                   name="t_department">
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher-id" style="margin-left: 30px">教职工号</label>
+                            <input type="text" class="form-control" id="teacher-id" placeholder="Teacher id"
+                                   name="t_number">
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <button type="button" class="btn btn-primary pri-btn fir">上一步</button>
+                        <button type="button" class="btn btn-primary pri-btn" id="tea-btn">下一步</button>
+                    </div>
+                </div>
+            </div>
+            <!--第三个页面-->
+            <div role="tabpanel" class="tab-pane" id="messages">
+                <div class="null"></div>
+                <div class="for-org">创建用户</div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-4">
+                        <div class="input-group input-group-lg pri">
+                            <span class="input-group-addon glyphicon glyphicon-user"></span>
+                            <input type="text" class="form-control disabled" placeholder="Username" id="username"
+                                   disabled aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                            <input type="password" class="form-control" id="password" placeholder="Password"
+                                   aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                            <input type="password" class="form-control" id="passwordagain" placeholder="Password again"
+                                   aria-describedby="basic-addon1" name = "password">
+                        </div>
+                    </div>
+                    <div class="col-md-5"></div>
+                    <div class="col-xs-10">
+                        <button type="button" class="btn btn-primary pri-btn sec">上一步</button>
+                        <button type="submit" class="btn btn-primary pri-btn" id="submit">完成</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+<script src="../static/js/layer/layer.js"></script>
+<script src="../static/js/signup.js"></script>
+</html>

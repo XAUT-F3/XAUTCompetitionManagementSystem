@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+</head>
+<body>
+<form action="" method="POST">
+    {% csrf_token %}
+    注册姓名:<input type="text" name="name"><br/>
+    注册密码:<input type="password" name="password"><br/>
+    性别：<input type="text" name="sex"><br/>
+    身份证件号：<input type="text" name="Inumber"><br/>
+    学院：<input type="text" name="academy"><br/>
+    年级：<input type="text" name="grade"><br/>
+    学号：<input type="text" name="number"><br/>
+    导师姓名：<input type="text" name="teacher_name"><br/>
+    电子邮箱：<input type="text" name="mail"><br/>
+    <input type="submit" value="提交">
+    <a href="/login/">登录</a>
+    <a href="/">首页</a>
+
+    form
+        action apply函数 返回名称表
+
+         action race_message 函数返回  赛事信息表
+
+        选的名称 给前端赛事表
+
+    返回赛事名称
+
+
+
+
+
+
+
+</form>
+</body>
+</html>

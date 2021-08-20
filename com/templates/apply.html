@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>报名</title>
+</head>
+<body>
+<!--{{request.user.u_name}}&#45;&#45;{{users.u_name}}-->
+<h1>赛事名称</h1>
+<ul>
+
+    {% for race_name in race_names%}
+    <li>
+        <a href="{{ race_name.id }}">{{ race_name.r_name}}</a>
+    </li>
+    {% endfor %}
+
+</ul>
+</body>
+</html>

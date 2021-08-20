@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>西安理工大学竞赛管理系统-我要报名</title>
+    <meta name="description" content="西安理工大学统一竞赛管理平台-注册">
+    <meta name="keywords" content="西安理工大学,竞赛管理,竞赛系统,西安理工大学竞赛管理系统">
+    <link rel="shortcut icon" href="../static/favicon.ico">
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/competitionEntry.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/signup.css">
+    <script src="../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row background" style="height: 150px;">
+        <div class="col-md-2 white-font"></div>
+        <div class="col-md-6 white-font plus">
+            <span>西安理工大学竞赛管理系统</span>
+        </div>
+    </div>
+</div>
+<div class="container-fluid col-red background">
+    <div class="tell-font">
+        <span>* 注册分为5步，分别为【选择赛事赛题】、【确认个人信息】、【填写团队基本信息】等五步完成后，才能成功参与比赛。</span><br>
+        <span>* 谨慎填写报名信息，一经提交不得更改。</span>
+    </div>
+</div>
+<!--跳转的头-->
+<div>
+    <!-- Nav tabs -->
+    <div class="nave text-center">
+        <ul class="nav nav-tabs" id="mar" role="tablist">
+            <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab"
+                                                      class="font">一、选择赛事赛题</a></li>
+            <li role="presentation"><a href="#profile" role="tab" data-toggle="tab"
+                                       class="font">二、确认个人信息</a></li>
+            <li role="presentation"><a href="#messages" role="tab" data-toggle="tab"
+                                       class="font">三、填写团队基本信息</a></li>
+            <li role="presentation"><a href="#settings" role="tab" data-toggle="tab"
+                                       class="font">四、邀请团队成员</a></li>
+            <li role="presentation"><a href="#end" role="tab" data-toggle="tab"
+                                       class="font">五、完成报名</a></li>
+        </ul>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!--一、选择赛事赛题-->
+        <div role="tabpanel" class="tab-pane in body" id="home">
+            <label for="competition-name" class="control-label">赛事名称</label>
+            <select class="form-control" id="competition-name">
+                {% for race_name in race_names %}
+                    <option value="{{ race_name.id }}">{{ race_name.r_name }}</option>
+                {% endfor %}
+            </select>
+            <div class="form-group">
+                <label for="competition-message" class="control-label" style="display: block">赛题</label>
+                <input type="text" class="form-control" id="competition-message"
+                       style="width: 1080px; display: inline-block" readonly>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                        id="selected"> 选择
+                </button>
+            </div>
+            <button type="button" class="btn btn-default button-me button-before"> 退出</button>
+            <button type="button" class="btn btn-primary button-me" id="next-one">下一步</button>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">选择赛题</h4>
+                        </div>
+                        <div class="modal-body" id="radio-data">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> 关闭</button>
+                            <button type="button" class="btn btn-primary" id="select-message"> 选择</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--二、确认个人信息-->
+        <div role="tabpanel" class="tab-pane in body" id="profile">
+            <div role="tabpanel" class="tab-pane" id="profile-student">
+                <div class="null"></div>
+                <div class="col-xs-2"></div>
+                <div class="form-inline stu">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="student-name" style="margin-left: 28px">姓名</label>
+                            <input type="text" class="form-control" id="student-name" placeholder="Name"
+                                   name="s_name" value="{{ myselfMessage.s_name }}">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="student-date">出生日期</label>
+                            <input type="text" id="student-date" name="s_birthday" placeholder="Birthday"
+                                   class="form-control" value="{{ myselfMessage.s_birthday }}">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="student-email">电子邮箱</label>
+                            <input type="email" class="form-control" id="student-email" placeholder="E-mail"
+                                   name="s_mail" value="{{ myselfMessage.s_mail }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-phone">电话号码</label>
+                            <input type="text" class="form-control" id="student-phone" maxlength="11" minlength="11"
+                                   placeholder="Phone" name="s_phone" value="{{ myselfMessage.s_phone }}"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <label for="student-college" style="margin-left: 55px">学院</label>
+                            <input type="text" class="form-control" id="student-college" placeholder="College"
+                                   name="s_college" value="{{ myselfMessage.s_college }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-grade" style="margin-left: 55px">年级</label>
+                            <input type="text" class="form-control" id="student-grade" placeholder="Grade"
+                                   name="s_grade" value="{{ myselfMessage.s_grade }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-class" style="margin-left: 55px">班级</label>
+                            <input type="text" class="form-control" id="student-class" placeholder="Class"
+                                   name="s_class" value="{{ myselfMessage.s_class }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-id" style="margin-left: 55px">学号</label>
+                            <input type="text" class="form-control" id="student-id" placeholder="Student id"
+                                   name="s_number" value="{{ myselfMessage.s_number }}">
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <button type="button" class="btn btn-default button-me button-before"> 退出</button>
+                        <button type="button" class="btn btn-primary button-me btn-next" id="next-two">下一步</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--三、填写团队基本信息-->
+        <div role="tabpanel" class="tab-pane in body" id="messages">
+            <h3><span>报名要求</span></h3><br>.....
+            <br>
+            <h3><span>团队基本信息</span></h3>
+            <div class="form-group" style="margin-bottom: 0;padding-bottom: 0;">
+                <label for="exampleInputName1"><span style="color: orangered">* </span> 团队名称</label>
+                <input type="text" class="form-control form-little" id="exampleInputName1" style="width: 300px"
+                       name="T_name">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;padding-bottom: 0;">
+                <label for="exampleInputEmail"><span style="color: orangered">* </span> 团队口号</label>
+                <input type="text" class="form-control form-little" id="exampleInputEmail" style="width: 300px"
+                       name="T_slogan">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;padding-bottom: 0;">
+                <label for="introduce"><span style="color: orangered">* </span> 团队介绍</label>
+                <textarea class="form-control" rows="3" id="introduce"
+                          style="width: 735px; resize: none" name="T_intro"></textarea>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;padding-bottom: 0;">
+                <label for="remark"> &nbsp&nbsp备注</label>
+                <textarea class="form-control" rows="3" id="remark"
+                          style="width: 735px; resize: none" name="T_remark"></textarea>
+            </div>
+            <div class="col-xs-10">
+                <button type="button" class="btn btn-default button-me button-before" style="margin-left: 200px">
+                    退出
+                </button>
+                <button type="button" class="btn btn-primary button-me btn-next" id="next-three">下一步</button>
+            </div>
+        </div>
+        <!--四、邀请团队成员-->
+        <div role="tabpanel" class="tab-pane in active body" id="settings">
+            <h3><span>报名要求</span></h3><br>.....
+            <br>
+            <h3><span>团队成员信息</span></h3>
+            <div class="form-group" style="margin-bottom: 0; padding-bottom: 0">
+                <label for="captain">队长</label>
+                <input type="text" class="form-control" id="captain" readonly style="width: 300px">
+            </div>
+            <div class="form-group" style="margin-bottom: 0; padding-bottom: 0">
+                <label style="margin-left: 32px">队员</label>
+                <button type="button" class="btn btn-primary" aria-label="Left Align" id="invite-student"
+                        data-toggle="modal" data-target="#invite-table">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" style="margin: 0 0"></span> 邀请队员
+                </button>
+
+
+                <!-- 邀请队员的隐藏输入框 -->
+                <div class="modal fade" id="invite-table" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">邀请成员</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-invite">
+                                    <label for="invite-tel">电话</label>
+                                    <input type="tel" class="form-control" id="invite-tel"
+                                           placeholder="Phone">
+                                </div>
+                                <div class="form-invite">
+                                    <label for="invite-name">姓名</label>
+                                    <input type="text" class="form-control" id="invite-name"
+                                           placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"> 关闭 </button>
+                                <button type="button" class="btn btn-primary" id="submit-invite"> 邀请 </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="for-table">
+                    <table class="table table-hover table-bordered" id="student-table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>姓名</th>
+                            <th>接受状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>lee</td>
+                            <td>成功</td>
+                            <td><a href="#">移除</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <label>指导教师</label>
+                <button type="button" class="btn btn-primary" aria-label="Left Align" id="invite-teacher">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" style="margin: 0 0"></span> 邀请指导教师
+                </button>
+                <div class="for-table">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>姓名</th>
+                            <th>接受状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>lee</td>
+                            <td>成功</td>
+                            <td><a href="#">移除</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-10">
+                <button type="button" class="btn btn-default button-me button-before" style="margin-left: 200px">
+                    退出
+                </button>
+                <button type="button" class="btn btn-primary button-me btn-next" id="next-four">下一步</button>
+            </div>
+        </div>
+        <!--完成报名-->
+        <div role="tabpanel" class="tab-pane in body" id="end">5</div>
+    </div>
+</div>
+</body>
+<script src="../static/js/layer/layer.js"></script>
+<script src="../static/js/competitionEntry.js"></script>
+
+</html>

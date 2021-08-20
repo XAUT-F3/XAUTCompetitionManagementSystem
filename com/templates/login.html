@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>西安理工大学竞赛管理系统-登录</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/login.css">
+    <!--    <script src="bootstrap/js/bootstrap.min.js"></script>-->
+</head>
+<body>
+<form action="" method="POST">
+    {% csrf_token %}
+    <div id="all">
+        <div class="input-group input-group-lg pri">
+            <span class="input-group-addon glyphicon glyphicon-user" id="basic-addon1"></span>
+            <input type="text" name="name" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon glyphicon glyphicon-lock" id="basic-addon2"></span>
+            <input type="password" name="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+        </div>
+        <button type="submit" class="btn btn-primary plus">登 录</button>
+        <div class="pri" id="font">
+            <span class="left"><a href="#">找回密码</a></span>
+            <span class="left-big"><a href="/signup/">立即注册</a></span>
+        </div>
+    </div>
+</form>
+</body>
+</html>

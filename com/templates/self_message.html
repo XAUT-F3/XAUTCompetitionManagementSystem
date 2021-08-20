@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+</head>
+<body>
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="phone">
+    <input type="submit" value="提交">
+</form>
+<ul>
+    <li>
+        {{myself_message.s_name}}--{{myself_message.s_college}}
+    </li>
+</ul>
+</body>
+</html>
