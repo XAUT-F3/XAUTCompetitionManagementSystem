@@ -1,0 +1,2 @@
+# XAUTCompetitionManagementSystem
+西安理工大学竞赛管理系统
