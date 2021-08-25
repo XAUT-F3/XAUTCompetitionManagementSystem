@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>首页 - Blog</title>
+    <link rel="shortcut icon" href="../static/favicon.ico">
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../static/css/common.css">
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/summernote-0.8.18-dist/summernote-lite.min.css">
+    <script src="../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+
+    <style>
+        #background-news {
+            height: 150px;
+            font-size: 24px;
+            color: #FFFFFF;
+            line-height: 150px;
+        }
+
+        a {
+            color: #666;
+            text-decoration: none !important;
+        }
+
+        a:hover {
+            color: #409EFF;
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<!--登录模块-->
+<div class="container underline">
+    <div class="row align-self-center mx-auto head">
+        <div class="row col-md-4 padding">
+            <span>欢迎访问西安理工大学竞赛管理系统!</span>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-2">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    {% if is_login == 0 %}
+                        <a href="{% url 'login' %}">
+                            <button type="button" class="btn btn-primary blue-btn login-btn" id="layer-login"> 登录
+                            </button>
+                        </a>
+                        <!--button type="button" class="btn btn-default login-btn"> 注册 </button-->
+                        <a href="{% url 'signup' %}">
+                            <button type="button" class="btn btn-default login-btn"> 注册</button>
+                        </a>
+                    {% else %}
+                        <span class="login-state" style="margin-left: 20px">{{ users.u_name }}</span>
+                        <span class="login-state"><a href="{% url 'logout' %}">退出</a></span><br>
+                        <span class="login-state"><a href="#">【个人中心】</a></span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--导航栏模块-->
+<div class="container-fluid">
+
+    <nav class="navbar navbar-default" style="background-color: #ffffff; border: none; margin-bottom: 0">
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="put-img">
+                <a href="#"><img src="../static/images/campus.png" alt="#"></a>
+            </div>
+
+            <ul class="nav navbar-nav head-right">
+                <li><a href="#">大赛介绍</a></li>
+                <li><a href="#">大赛动态</a></li>
+                <li><a href="#">风采展示</a></li>
+                <li><a href="#">主办单位</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">关于我们 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a href="{% url 'applyHome' %}">
+                <button type="button" class="btn btn-primary head-button blue-btn"> 我要报名</button>
+            </a>
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+<!--背景图模块-->
+<div class="container-fluid">
+    <div class="row text-center" id="background-news" style="background-image: url('../static/images/news.jpg')">
+        大赛动态
+    </div>
+</div>
+<!--中间模块-->
+<div class="layui-container">
+    <div class="layui-row layui-col-space20">
+        <!--        内部-->
+        <div class="layui-col-md11">
+            <div class="layui-row">
+                <!--                顶部-->
+                <div class="layui-col-md12 margin20"></div>
+                <!--                置顶-->
+                <div class="layui-col-md12">
+                    <div class="main zdbox">
+                        <div class="subject"><b>[置顶]</b><a href="javascript:;">用layui做一个独立博客网站（响应式模板）</a><em>2018-12-28
+                            11:53:24 发布</em></div>
+                        <div class="content">我是帅哥，风格迥异的四个我，有着不同的个性，不同的人格，甚至不同的职业。
+                            亦是我，亦非我，我是不一样的烟火。我是帅哥，风格迥异的四个我，有着不同的个性，不同的人格，甚至不同的职业。
+                            亦是我，亦非我，我是不一样的烟火。
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 margin20"></div>
+
+                <!--                具体内容-->
+                <div class="layui-col-md12">
+                    <div class="main list">
+                        <div class="subject"><a href="javascript:;">用layui做一个独立博客网站（响应式模板）</a><em>2018-12-28
+                            11:53:24 发布</em></div>
+                        <div class="content layui-row">
+                            <div class="layui-col-md12">
+                                <div class="list-text" style="height: 40px">用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+                                    V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+
+                                </div>
+                                <div class="list-stat layui-row">
+
+                                    <div class="layui-col-xs3 layui-col-md3 Label">
+                                        <i class="layui-icon layui-icon-note"></i>
+                                        <a href="javascript:;">PHP</a>
+                                        <a href="javascript:;">Discuz</a>
+                                    </div>
+
+                                    <div class="layui-col-xs3 layui-col-md3">
+                                        <i class="layui-icon layui-icon-read"></i>
+                                        <em>12次阅读</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 margin20"></div>
+                <div class="layui-col-md12">
+                    <div class="main list">
+                        <div class="subject"><a href="javascript:;">用layui做一个独立博客网站（响应式模板）</a><em>2018-12-28
+                            11:53:24 发布</em></div>
+                        <div class="content layui-row">
+                            <div class="layui-col-md12">
+                                <div class="list-text" style="height: 40px">用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+                                    V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+
+                                </div>
+                                <div class="list-stat layui-row">
+
+                                    <div class="layui-col-xs3 layui-col-md3 Label">
+                                        <i class="layui-icon layui-icon-note"></i>
+                                        <a href="javascript:;">PHP</a>
+                                        <a href="javascript:;">Discuz</a>
+                                    </div>
+
+                                    <div class="layui-col-xs3 layui-col-md3">
+                                        <i class="layui-icon layui-icon-read"></i>
+                                        <em>12次阅读</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 margin20"></div>
+                <div class="layui-col-md12">
+                    <div class="main list">
+                        <div class="subject"><a href="javascript:;">用layui做一个独立博客网站（响应式模板）</a><em>2018-12-28
+                            11:53:24 发布</em></div>
+                        <div class="content layui-row">
+                            <div class="layui-col-md12">
+                                <div class="list-text" style="height: 40px">用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+                                    V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+
+                                </div>
+                                <div class="list-stat layui-row">
+
+                                    <div class="layui-col-xs3 layui-col-md3 Label">
+                                        <i class="layui-icon layui-icon-note"></i>
+                                        <a href="javascript:;">PHP</a>
+                                        <a href="javascript:;">Discuz</a>
+                                    </div>
+
+                                    <div class="layui-col-xs3 layui-col-md3">
+                                        <i class="layui-icon layui-icon-read"></i>
+                                        <em>12次阅读</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 margin20"></div>
+                <div class="layui-col-md12">
+                    <div class="main list">
+                        <div class="subject"><a href="javascript:;">用layui做一个独立博客网站（响应式模板）</a><em>2018-12-28
+                            11:53:24 发布</em></div>
+                        <div class="content layui-row">
+                            <div class="layui-col-md12">
+                                <div class="list-text" style="height: 40px">用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+                                    V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+
+                                </div>
+                                <div class="list-stat layui-row">
+
+                                    <div class="layui-col-xs3 layui-col-md3 Label">
+                                        <i class="layui-icon layui-icon-note"></i>
+                                        <a href="javascript:;">PHP</a>
+                                        <a href="javascript:;">Discuz</a>
+                                    </div>
+
+                                    <div class="layui-col-xs3 layui-col-md3">
+                                        <i class="layui-icon layui-icon-read"></i>
+                                        <em>12次阅读</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 margin20"></div>
+                <div class="layui-col-md12">
+                    <div class="main list">
+                        <div class="subject"><a href="javascript:;">用layui做一个独立博客网站（响应式模板）</a><em>2018-12-28
+                            11:53:24 发布</em></div>
+                        <div class="content layui-row">
+                            <div class="layui-col-md12">
+                                <div class="list-text" style="height: 40px">用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+                                    V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+
+                                </div>
+                                <div class="list-stat layui-row">
+
+                                    <div class="layui-col-xs3 layui-col-md3 Label">
+                                        <i class="layui-icon layui-icon-note"></i>
+                                        <a href="javascript:;">PHP</a>
+                                        <a href="javascript:;">Discuz</a>
+                                    </div>
+
+                                    <div class="layui-col-xs3 layui-col-md3">
+                                        <i class="layui-icon layui-icon-read"></i>
+                                        <em>12次阅读</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 margin20"></div>
+                <div class="layui-col-md12">
+                    <div class="main list">
+                        <div class="subject"><a href="javascript:;">用layui做一个独立博客网站（响应式模板）</a><em>2018-12-28
+                            11:53:24 发布</em></div>
+                        <div class="content layui-row">
+                            <div class="layui-col-md12">
+                                <div class="list-text" style="height: 40px">用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+                                    V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）用DTcms做一个独立博客网站（响应式模板），采用DTcms
+                                    V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms
+
+                                </div>
+                                <div class="list-stat layui-row">
+
+                                    <div class="layui-col-xs3 layui-col-md3 Label">
+                                        <i class="layui-icon layui-icon-note"></i>
+                                        <a href="javascript:;">PHP</a>
+                                        <a href="javascript:;">Discuz</a>
+                                    </div>
+
+                                    <div class="layui-col-xs3 layui-col-md3">
+                                        <i class="layui-icon layui-icon-read"></i>
+                                        <em>12次阅读</em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12 margin20"></div>
+
+
+                <div class="layui-col-md12" id="pages"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 尾部 -->
+<div class="footer"></div>
+<footer class="layui-bg-cyan">
+    <div class="layui-container">
+        <div class="layui-row">
+            <p>版权所有：西安理工大学 陕ICP备05001616号</p>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="../static/layui/layui.all.js"></script>
+<script src="../static/js/layer/layer.js"></script>
+<script src="../static/js/index.js"></script>
+<script>
+    $(document).ready(() => {
+        $.getJSON()
+
+    })
+
+    layui.laypage.render({
+        elem: 'pages' //注意，这里的 test1 是 ID，不用加 # 号
+        , count: 10 //数据总数，从服务端得到
+        , theme: '#337AB7'
+        , jump: function (obj, first) {
+            //obj包含了当前分页的所有参数，比如：
+            console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+            console.log(obj.limit); //得到每页显示的条数
+            $.getJSON('')
+
+            //首次不执行
+            if (!first) {
+                //do something
+            }
+        }
+    });
+</script>
+</html>

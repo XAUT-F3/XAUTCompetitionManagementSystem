@@ -27,7 +27,7 @@ class Race_Message(models.Model):
     m_work_request = models.TextField(null=True)  # 作品要求
     m_race = models.IntegerField()
 
-    # m_race = models.ForeignKey("Race_name", on_delete=models.CASCADE)#关联外键
+    # m_race = models.ForeignKey("Race_name", on_delete=models.CASCADE)  #关联外键
     class Meta:
         db_table = 'race_message'
 
@@ -49,7 +49,7 @@ class Team(models.Model):
 
 
 class Member(models.Model):
-    message_id = models.IntegerField()  # 赛事id
+    team_id = models.IntegerField()  # 队伍id
     member_id = models.IntegerField()  # 成员id
     invite_state = models.IntegerField()  # 邀请状态，0为邀请中，1为已邀请成功
 

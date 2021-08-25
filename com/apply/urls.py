@@ -13,5 +13,5 @@ urlpatterns = [
     path('confirm_self/', views.confirm_self),
     path('team/', views.team, name='applyTeam'),  # 提交队伍信息
     path('addMatchStudent/', views.addMatchStudent, name='addMatchStudent'),  # 提交队伍信息
-    path('deleteMessage/<int:id>/', views.deleteMessage, name='deleteMessage')  # 删除个人参赛信息
+    path('deleteMessage/', views.deleteMessage, name='deleteMessage')  # 删除个人参赛信息
 ]

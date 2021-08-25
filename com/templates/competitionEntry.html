@@ -53,7 +53,7 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <!--一、选择赛事赛题-->
-        <div role="tabpanel" class="tab-pane in body" id="home">
+        <div role="tabpanel" class="tab-pane in active body" id="home">
             <label for="competition-name" class="control-label">赛事名称</label>
             <select class="form-control" id="competition-name">
                 {% for race_name in race_names %}
@@ -186,7 +186,7 @@
             </div>
         </div>
         <!--四、邀请团队成员-->
-        <div role="tabpanel" class="tab-pane in active body" id="settings">
+        <div role="tabpanel" class="tab-pane in body" id="settings">
             <h3><span>报名要求</span></h3><br>.....
             <br>
             <h3><span>团队成员信息</span></h3>
@@ -238,17 +238,11 @@
                         <tr>
                             <th>#</th>
                             <th>姓名</th>
+                            <th>电话</th>
                             <th>接受状态</th>
-                            <th>操作</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>lee</td>
-                            <td>成功</td>
-                            <td><a href="#">移除</a></td>
-                        </tr>
+                        <tbody id="stu-table-body">
                         </tbody>
                     </table>
                 </div>
@@ -267,12 +261,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>lee</td>
-                            <td>成功</td>
-                            <td><a href="#">移除</a></td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>

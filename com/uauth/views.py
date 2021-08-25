@@ -12,7 +12,7 @@ from .models import Users, students, teachers
 # from stu.models import StudentInfo
 import os
 from django.conf import settings
-
+from . import newsViews
 """def index(request):
     if request.method == 'GET':
         return render(request, 'index.html')
@@ -21,16 +21,7 @@ from django.conf import settings
 
 
 def index(request):
-    is_login = request.COOKIES.get('ticket', False)
-
-    if is_login:
-        ticket = request.COOKIES.get('ticket')
-        users = Users.objects.get(u_ticket=ticket)
-        request.ticket = ticket
-        return render(request, 'index.html', {"is_login": 1, "users": users})
-    else:
-        return render(request, 'index.html', {"is_login": 0})
-    # return render(request, 'index.html')
+    return render(request, 'index.html', newsViews.checkLogin(request))
 
 
 def signup(request):
@@ -100,7 +91,7 @@ def signup(request):
         with open(filePath, 'wb') as fp:
             for info in picture.chunks():
                 fp.write(info)
-        return HttpResponseRedirect('/')
+        return render(request, 'index.html', {'is_login': 0})
         # return HttpResponse("注册成功")
 
 
@@ -145,7 +136,8 @@ def login(request):
                 now_time = int(time.time())
                 ticket = 'TK' + ticket + str(now_time)
                 # 绑定令牌到cookie里面
-                response = HttpResponse()
+                # response = render(request, 'index.html')
+                response = render(request, 'index.html', {"is_login": 1, "users": user})
                 # response = HttpResponseRedirect('/stu/index.html')
                 # max_age 存活时间(秒)
                 response.set_cookie('ticket', ticket, max_age=10000)
@@ -158,18 +150,20 @@ def login(request):
                 # return HttpResponseRedirect('/')
                 # return render(request, 'index.html')
             else:
-                return HttpResponse('用户密码错误')
-                # return render(request, "login.html", {"password": "用户密码错误"})
-                # return render(request, "login.html", {"msg": u"用户名或者密码错误!"})
+                # return HttpResponse('用户密码错误')
+                # return render(request,'login.html',{'script':"alert",'wrong':'账号错误'})
+                return render(request, 'login.html', {'script': "layer.msg", 'wrong': '密码错误'})
         else:
-            return HttpResponse('用户不存在')
-            # return render(request, 'login.html', {'name': '用户不存在'})
+            # return HttpResponse('用户不存在')
+            # print('#')
+            # return render(request, 'login.html', {'script': '<script>layer.msg("用户不存在", {icon: 5})</script>'})
+            return render(request, 'login.html', {'script': "layer.msg", 'wrong': '用户不存在'})
 
 
 def logout(request):
     if request.method == 'GET':
         # response = HttpResponse()
-        response = HttpResponseRedirect('/login/')
+        response = render(request, 'index.html', {"is_login": 0})
         response.delete_cookie('ticket')
         return response
 

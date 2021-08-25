@@ -12,11 +12,22 @@
     <link rel="stylesheet" href="../static/css/base.css">
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/summernote-0.8.18-dist/summernote-lite.min.css">
     <script src="../static/js/jquery-3.6.0.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        a {
+            color: #666;
+            text-decoration: none !important;
+        }
+
+        a:hover {
+            color: #409EFF;
+            text-decoration: none !important;
+        }
+    </style>
 </head>
 <body>
-{{ users.u_name }}--{{ users.u_phone }}--{{ request.ticket }}
 <!--登录模块-->
 <div class="container underline">
     <div class="row align-self-center mx-auto head">
@@ -28,14 +39,20 @@
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-10">
-                    <button type="button" class="btn btn-primary blue-btn login-btn" id="layer-login"> 登录</button>
+                    {% if is_login == 0 %}
+                    <a href="{% url 'login' %}">
+                        <button type="button" class="btn btn-primary blue-btn login-btn" id="layer-login"> 登录
+                        </button>
+                    </a>
                     <!--button type="button" class="btn btn-default login-btn"> 注册 </button-->
                     <a href="{% url 'signup' %}">
                         <button type="button" class="btn btn-default login-btn"> 注册</button>
                     </a>
-                    <span class="login-state">{{ users.u_name }}</span>
-                    <span class="login-state"><a href="#">退出</a></span>
+                    {% else %}
+                    <span class="login-state" style="margin-left: 20px">{{ users.u_name }}</span>
+                    <span class="login-state"><a href="{% url 'logout' %}">退出</a></span><br>
                     <span class="login-state"><a href="#">【个人中心】</a></span>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -198,13 +215,13 @@
                 <div class="col-md-4 text-center comp-son">
                     <img class="img-content" src="../static/images/temp01.JPG" alt="#">
                     <div class="title">
-                        <span>为了使用内置的栅格系统将内容再次嵌套，可以通过添加一到已经存在的 .col-sm-* 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过12（其实，没有要求你必须占满12列）。</span>
+                        <span class="news-title"></span>
                     </div>
                     <div class="font">
-                        <span class="hid">为了使用内置的栅格系统将内容再次嵌套，可以通过添加一个新的 .row 元素和一系列 .col-sm-* 元素到已经存在的 .col-sm-* 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过12（其实，没有要求你必须占满12列）。</span>
+                        <span class="hid"></span>
                     </div>
                     <div class="date">
-                        <span>2021-10-9</span>
+                        <span class="news-date"></span>
                     </div>
                 </div>
             </a>
@@ -212,13 +229,13 @@
                 <div class="col-md-4 text-center comp-son">
                     <img class="img-content" src="../static/images/temp02.JPG" alt="#">
                     <div class="title">
-                        <span>为了使用内置的栅格系统将内容再次嵌套，可以通过添加一到已经存在的 .col-sm-* 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过12（其实，没有要求你必须占满12列）。</span>
+                        <span class="news-title"></span>
                     </div>
                     <div class="font">
-                        <span class="hid">为了使用内置的栅格系统将内容再次嵌套，可以通过添加一个新的 .row 元素和一系列 .col-sm-* 元素到已经存在的 .col-sm-* 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过12（其实，没有要求你必须占满12列）。</span>
+                        <span class="hid"></span>
                     </div>
                     <div class="date">
-                        <span>2021-10-9</span>
+                        <span class="news-date"></span>
                     </div>
                 </div>
             </a>
@@ -226,13 +243,13 @@
                 <div class="col-md-4 text-center comp-son">
                     <img class="img-content" src="../static/images/temp03.JPG" alt="#">
                     <div class="title">
-                        <span>为了使用内置的栅格系统将内容再次嵌套，可以通过添加一到已经存在的 .col-sm-* 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过12（其实，没有要求你必须占满12列）。</span>
+                        <span class="news-title"></span>
                     </div>
                     <div class="font">
-                        <span class="hid">为了使用内置的栅格系统将内容再次嵌套，可以通过添加一个新的 .row 元素和一系列 .col-sm-* 元素到已经存在的 .col-sm-* 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过12（其实，没有要求你必须占满12列）。</span>
+                        <span class="hid"></span>
                     </div>
                     <div class="date">
-                        <span>2021-10-9</span>
+                        <span class="news-date"></span>
                     </div>
                 </div>
             </a>
@@ -293,7 +310,26 @@
 <div class="container-fluid text-center bottom-all">版权所有：西安理工大学 陕ICP备05001616号</div>
 
 </body>
+<script>
+    $(document).ready(() => {
+        $.getJSON('{% url 'indexGetFrontNews' %}', {}, (args) => {
+            news = args.news;
+            let news_title = document.getElementsByClassName('news-title');
+            let news_date = document.getElementsByClassName('news-date');
+            let news_body = document.getElementsByClassName('hid');
+            for (let i = 0; i < 3; i++) {
+                news_title[i].innerHTML = news[i].title;
+                news_date[i].innerHTML = news[i].time;
+                news_body[i].innerHTML = news[i].context;
+                news_body[i].innerText = news_body[i].innerText.slice(0, 100).replace(/[\s\r\\n]/g, "") + '...'
+            }
+        }
+    )
+    })
 
+
+</script>
 <script src="../static/js/layer/layer.js"></script>
 <script src="../static/js/index.js"></script>
+
 </html>

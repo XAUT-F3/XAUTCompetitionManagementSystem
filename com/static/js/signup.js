@@ -88,15 +88,17 @@ $(function () {
 })
 
 
-$('#student-date,#date').datetimepicker({
-    forceParse: 0,//设置为0，时间不会跳转1899，会显示当前时间。
-    language: 'zh-CN',//显示中文
-    format: 'yyyy-mm-dd',//显示格式
-    minView: "day",//设置只显示到月份
-    initialDate: new Date(),//初始化当前日期
-    autoclose: true,//选中自动关闭
-    startView: 3,
-})
+layui.use('laydate', function () {
+    let laydate = layui.laydate;
+    //执行一个laydate实例
+    laydate.render({
+        elem: '#student-date', //指定元素
+        // elem: '#date', //指定元素
+    });
+    laydate.render({
+        elem: '#date', //指定元素
+    });
+});
 
 
 $('input[name=picture], input[name=s_picture]').change(function () {

@@ -37,6 +37,7 @@ $('#next-one').bind('click', function () {
 $('#next-two').bind('click', function () {
     remove(1, 2);
 })
+let team_id = -1;
 $('#next-three').bind('click', function () {
     let data = {
         's_name': $('input[name=s_name]').val(),
@@ -58,6 +59,7 @@ $('#next-three').bind('click', function () {
     // 调用Ajax上传数据
     $.post('team/', data, (args) => {
         if (args.code === 1) {
+            team_id = args.team_id;
             layer.msg('报名成功');
             remove(2, 3);
             document.getElementById('captain').setAttribute('value', $('#student-name').val());
@@ -66,38 +68,44 @@ $('#next-three').bind('click', function () {
         }
     })
 })
+
 $('#invite-student').bind('click', () => {
     $('#submit-invite').bind('click', () => {
         let tel = $('#invite-tel').val();
         let name = $('#invite-name').val();
         if (tel.length === 0 || name.length === 0) {
             alert('信息不能为空！');
-        } else if (1) {
-
         } else {
             $.getJSON('addMatchStudent/', {
                 'phone': tel,
                 'name': name,
-                'message_id': $('input[name=T_message]').val()
+                'team_id': team_id
             }, (data) => {
                 layer.msg(data.msgs);
                 if (data.code === 1) {
                     $('#invite-table').modal('hide');  // 关闭窗口
-                    let len = $('#student-table tbody tr')  // 数行数
-                    $('#student-table tbody').innerHTML += '<tr>\n' +
-                        '<td>' + len + 1 + '</td>\n' +
+                    let len = $('#student-table tbody tr').length + 1;  // 数行数
+
+                    document.getElementById('stu-table-body').innerHTML += '<tr>\n' +
+                        '<td>' + len + '</td>\n' +
                         '<td>' + name + '</td>\n' +
+                        '<td>' + tel + '</td>\n' +
                         '<td>' + '待接受' + '</td>\n' +
-                        '<td>' + '<a href="{% url \'qry\' 1 %}" class="delete-message">移除</a>' + '</td>\n' +
-                        '</tr>'
+                        // '<td>' + '<a href=deleteMessage/?message_id=' + $('input[name=T_message]').val() + '&student_phone=' + $(this).prev().prev().val() + ' class=delete-message>移除</a>'
+                        // '<td>' + '<a href={%url&nbsp\'deleteMessage\''+ '\xa0'  + $('input[name=T_message]').val() +'\xa0'+ $('input[name=s_phone]').val() + '} class=delete-message>移除</a>'
+                        // +'</td>\n' +
+                        '</tr>';
                 }
             })
         }
     })
 })
-$('.delete-message').bind('click', () => {
-
+$('#next-four').bind('click', function () {
+    alert('恭喜你报名完成');
+    location.replace('../../');
+    remove(3, 4);
 })
+
 
 
 

@@ -27,11 +27,12 @@ button {
 
 a {
     color: #666;
-    text-decoration: none
+    text-decoration: none !important;
 }
 
 a:hover {
-    color: #409EFF
+    color: #409EFF;
+    text-decoration: none !important;
 }
 
 button,

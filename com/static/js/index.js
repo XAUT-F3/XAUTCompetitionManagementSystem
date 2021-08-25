@@ -32,19 +32,19 @@ for (let i = 0; i < hover.length; i++) {
 }
 
 // 弹出框的js
-$(function () {
-    $('#layer-login').on('click', function () {
-        layer.open({
-            type: 2,
-            title: '用户登录',
-            // maxmin: true,
-            skin: 'layui-layer-lan',
-            shadeClose: true, //点击遮罩关闭层
-            area: ['440px', '300px'],
-            content: 'login.html'  //弹框显示的url
-        });
-    });
-})
+// $(function () {
+//     $('#layer-login').on('click', function () {
+//         layer.open({
+//             type: 2,
+//             title: '用户登录',
+//             // maxmin: true,
+//             skin: 'layui-layer-lan',
+//             shadeClose: true, //点击遮罩关闭层
+//             area: ['440px', '300px'],
+//             content: 'login.html'  //弹框显示的url
+//         });
+//     });
+// })
 
 
 

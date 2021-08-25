@@ -111,30 +111,40 @@ def team(request):  # 填写队伍信息
         T_intro = request.POST.get('T_intro')  # 队伍介绍
         T_leader = request.POST.get('s_name')  # 队长名称
         T_remark = request.POST.get('T_remark')  # 队伍备注
-        Team.objects.create(T_name=T_name, T_intro=T_intro, T_slogan=T_slogan, T_leader=T_leader, T_phone=T_phone,
+        new_team = Team.objects.create(T_name=T_name, T_intro=T_intro, T_slogan=T_slogan, T_leader=T_leader, T_phone=T_phone,
                             T_message=T_message, T_remark=T_remark)
-        return JsonResponse({'code': 1})  # 报名成功返回1
+        return JsonResponse({'code': 1, 'team_id': new_team.id})  # 报名成功返回1
     except:
         return JsonResponse({'code': 0, 'msgs': '服务繁忙，请稍后重试！'})  # 报名失败返回0
 
 
 def addMatchStudent(request):  # 添加比赛队友
-    phone = request.GET.get('phone')
-    name = request.GET.get('name')
-    message_id = request.GET.get('message_id')
-    obj = students.objects.filter(s_phone=phone, s_name=name)
-    ticket = request.COOKIES.get('ticket')
-    users = Users.objects.get(u_ticket=ticket)
-    selfPhone = users.u_phone  # 从页面获取登录用户的手机号
-    if selfPhone == phone:
-        return JsonResponse({'code': 0, 'msgs': '不能邀请自己'})  # 报名失败返回0
-    elif len(Member.objects.filter(member_id=obj[0].id, message_id=message_id)) != 0:
-        return JsonResponse({'code': 0, 'msgs': '该用户已存在于队伍中'})  # 报名失败返回0
-    elif len(obj) == 0:
-        return JsonResponse({'code': 0, 'msgs': '未查询到该用户'})  # 报名失败返回0
-    Member.objects.create(message_id=message_id, invite_state=0, member_id=obj[0].id)  # 默认状态为0，等待对方确认
-    return JsonResponse({'code': 1, 'msgs': '成功发出邀请，等待对方确认~'})
+    try:
+        phone = request.GET.get('phone')
+        name = request.GET.get('name')
+        team_id = request.GET.get('team_id')
+        obj = students.objects.filter(s_phone=phone, s_name=name)
+        ticket = request.COOKIES.get('ticket')
+        users = Users.objects.get(u_ticket=ticket)
+        selfPhone = users.u_phone  # 从页面获取登录用户的手机号
+        if selfPhone == phone:
+            return JsonResponse({'code': 0, 'msgs': '不能邀请自己'})  # 报名失败返回0
+        elif len(obj) == 0:
+            return JsonResponse({'code': 0, 'msgs': '未查询到该用户'})  # 报名失败返回0
+        elif len(Member.objects.filter(member_id=obj[0].id, team_id=team_id)) != 0:
+            return JsonResponse({'code': 0, 'msgs': '该用户已存在于队伍中'})  # 报名失败返回0
+        Member.objects.create(team_id=team_id, invite_state=0, member_id=obj[0].id)  # 默认状态为0，等待对方确认
+        return JsonResponse({'code': 1, 'msgs': '成功发出邀请，等待对方确认~'})
+    except:
+        return JsonResponse({'code': 0, 'msgs': '服务繁忙，请稍后重试！'})
 
 
-def deleteMessage(request, id):
-    pass
+def deleteMessage(request):
+    try:
+        message_id = request.GET.get('message_id')
+        student_phone = request.GET.get('student_phone')
+        sid = students.objects.get(s_phone=student_phone).id  # 先查询该学生的id
+        Member.objects.get(member_id=sid, message_id=message_id).delete()  # 在member表里进行删除
+        return JsonResponse({'code': 1, 'msgs': '删除成功'})
+    except:
+        return JsonResponse({'code': 0, 'msgs': '服务繁忙，请稍后重试！'})
