@@ -15,12 +15,12 @@ urlpatterns = [
 
     # 用于加载新闻
     path('getFrontNews/', newsViews.getFrontNews, name='indexGetFrontNews'),
-    path('indexNews/', newsViews.getIndexNews, name='indexNews'),
-    path('getAllNewsLength/', newsViews.getAllNewsLength, name='getAllNewsLength'),
+    path('indexNews/', newsViews.getIndexNews, name='indexNews'),   # 大赛动态首页
+    path('indexNews/<int:id>/', newsViews.getOneNews, name='getOneNews'),  # 显示具体的一条新闻的页面
 
-    path('showNews/', newsViews.getOneNews, name='getOneNews'),  # 显示具体的一条新闻
-    path('showNewsContext/', newsViews.getNewsContext, name='newsContexts')  # 显示具体的一条新闻
-    # url(r'^upload', views.upload, name='upload'),
-    # url(r'^index/', views.index),
+
+    path('getAllNewsLength/', newsViews.getAllNewsLength, name='getAllNewsLength'),  # 获取所有新闻总数目
+    path('indexNewsDetails/', newsViews.getIndexNewsDetails, name='indexNewsDetails'),  # 获取所有新闻不同页面数据
+
 
 ]

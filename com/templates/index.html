@@ -256,7 +256,7 @@
         </div>
     </div>
     <div class="text-center btn-cor">
-        <button type="button" class="btn btn-primary text-center blue-btn"> 了解更多</button>
+        <a href="{% url 'indexNews' %}"><button type="button" class="btn btn-primary text-center blue-btn"> 了解更多</button></a>
     </div>
 </div>
 <!--大赛动态结束-->
@@ -317,7 +317,9 @@
             let news_title = document.getElementsByClassName('news-title');
             let news_date = document.getElementsByClassName('news-date');
             let news_body = document.getElementsByClassName('hid');
+            let que = document.getElementsByClassName('que')
             for (let i = 0; i < 3; i++) {
+                que[i].setAttribute("href", '{% url 'indexNews' %}' + news[i].id);
                 news_title[i].innerHTML = news[i].title;
                 news_date[i].innerHTML = news[i].time;
                 news_body[i].innerHTML = news[i].context;

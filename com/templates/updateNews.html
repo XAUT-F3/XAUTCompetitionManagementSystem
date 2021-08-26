@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="Author" content="Lee">
+    <meta name="Keywords" content="后台模板">
+    <title>增加新闻</title>
+    <link rel="stylesheet" href="../../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../../static/css/public.css"/>
+    <link rel="stylesheet" href="../../static/css/admins.css"/>
+    <link rel="stylesheet" href="../../static/css/jqueryui.css">
+    <link rel="stylesheet" href="../../static/summernote-0.8.18-dist/summernote-lite.min.css">
+    <script src="../../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../../static/summernote-0.8.18-dist/summernote-lite.min.js"></script>
+    <script src="../../static/summernote-0.8.18-dist/lang/summernote-zh-CN.min.js"></script>
+    <script src="../../static/layui/layui.js"></script>
+</head>
+<body>
+
+<div class="width_80">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="title">标题：</label>
+            <div class="layui-input-block">
+                <input type="text" id="title" name="title" placeholder="请输入" autocomplete="off" class="layui-input" value="{{ obj.title }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="author">作者：</label>
+            <div class="layui-input-block">
+                <input type="text" id="author" name="author" placeholder="请输入" autocomplete="off" class="layui-input" value="{{ obj.author }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="type">类型：</label>
+            <div class="layui-input-block">
+                <select name="interest" lay-filter="kind" id="type">
+                    <option value="比赛资讯">比赛资讯</option>
+                    <option value="获奖公示">获奖公示</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="time">时间：</label>
+            <div class="layui-input-block">
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" id="time" value="{{ obj.time }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">描述：</label>
+            <!--				编辑富文本-->
+
+            <div style="margin-left: 110px">
+                <div id="summernote">{{ obj.context }}</div>
+            </div>
+
+            <!--				编辑富文本结束-->
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="button" id="submit">立即发布</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript" src="../../static/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="../../static/js/zhuogan.sdk.uploadFile.js"></script>
+<script type="text/javascript" src="../../static/js/editor.js"></script>
+<script src="../../static/js/jqueryui.js"></script>
+<script>
+    $(document).ready(() => {
+        document.getElementById('summernote').innerHTML = document.getElementById('summernote').innerText;
+    })
+    layui.use(['laydate', 'form', 'jquery', 'element'], function () {
+        let form = layui.form;
+        let laydate = layui.laydate;
+        let element = layui.element;
+        let $ = layui.jquery;
+        form.render();
+        laydate.render({
+            elem: '#time'
+            , type: 'datetime'
+        });
+    });
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            lang: 'zh-CN', // default: 'en-US'
+            placeholder: '开始编辑~',
+            tabsize: 4,
+            height: 400,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['undo', ['undo']], //撤销
+                ['redo', ['redo']], //取消撤销
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['help']],
+            ]
+        });
+    });
+
+    $('#submit').on('click', () => {
+        let title = $('#title').val();
+        let author = $('#author').val();
+        let type = $('#type').val();
+        let time = $('#time').val();
+        let context = document.getElementsByClassName('note-editable')[0].innerHTML;
+        let data = {
+            'id':{{ obj.id }},
+            'title': title,
+            'author': author,
+            'type': type,
+            'time': time,
+            'context': context
+        }
+        $.post('{% url 'updateNewsDetails' %}', data, (args) => {
+                if (args.code === 1) {
+                    layer.msg('修改成功', {icon: 6});
+                } else {
+                    layer.msg('服务器请求出错，请稍后再试！', {icon: 5});
+                }
+            }
+        )
+    })
+
+    // callbacks: {
+    //     onImageUpload: function (file) {  //图片默认以二进制的形式存储到数据库，调用此方法将请求后台将图片存储到服务器，返回图片请求地址到前端
+    //
+    //         //将图片放入Formdate对象中
+    //         var formData = new FormData();
+    //         //‘picture’为后台获取的文件名，file[0]是要上传的文件
+    //         formData.append("picture", file[0]);
+    //         $.ajax({
+    //             type: 'post',
+    //             url: '请求后台地址',
+    //             cache: false,
+    //             data: formData,
+    //             processData: false,
+    //             contentType: false,
+    //             dataType: 'text', //请求成功后，后台返回图片访问地址字符串，故此以text格式获取，而不是json格式
+    //             success: function (picture) {
+    //                 $('#summernote').summernote('insertImage', picture);
+    //             },
+    //             error: function () {
+    //                 alert("上传失败");
+    //             }
+    //         });
+    //     }
+    // }
+</script>
+</html>

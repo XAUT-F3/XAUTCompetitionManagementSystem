@@ -39,7 +39,7 @@ def toDictNews(start, end, length):  # 把数据库类变为字典类
     newObjs = [model_to_dict(_) for _ in objs]
     for i in range(end - start):
         newObjs[i].pop('context')
-        newObjs[i]['id'] = length - start - i
+        # newObjs[i]['id'] = length - start - i
     newObjs.reverse()
     return newObjs
 
@@ -59,3 +59,28 @@ def newsList(request):  # 处理新闻的请求
                          "msg": "返回成功",
                          "count": length,
                          'data': data})
+
+
+def delNews(request):
+    try:
+        id = request.GET.get('id')
+        models.News.objects.get(id=id).delete()
+        return JsonResponse({'code': 1})
+    except:
+        return JsonResponse({'code': 0})
+
+
+def updateNews(request, id):
+    obj = models.News.objects.get(id=id)
+    return render(request, 'updateNews.html', {'obj': obj})
+
+
+def updateNewsDetails(request):
+    try:
+        id = request.POST.get('id')
+        news = models.News.objects.filter(id=id)
+        news.update(title=request.POST.get('title'), time=request.POST.get('time'), type=request.POST.get('type'),
+                    context=request.POST.get('context'), author=request.POST.get('author'))
+        return JsonResponse({'code': 1})
+    except:
+        return JsonResponse({'code', 0})

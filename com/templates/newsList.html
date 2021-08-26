@@ -29,7 +29,7 @@
         </div>
         <button class="layui-btn" data-type="reload">搜索</button>
     </div>
-    <table class="layui-hide" id="LAY_table_user"></table>
+    <table class="layui-hide" id="LAY_table_user" lay-filter="news"></table>
 </div>
 
 </body>
@@ -40,8 +40,8 @@
 </script>
 <script>
     layui.use(['table', 'jquery', 'element'], function () {
-        var table = layui.table;
-        var $ = layui.jquery;
+        let table = layui.table;
+        let $ = layui.jquery;
         table.render({
             elem: '#LAY_table_user'
             , url: '{% url 'newsList' %}'
@@ -49,29 +49,36 @@
             , cols: [[
                 {field: 'id', title: 'ID', fixed: true, width: 80}
                 , {field: 'title', title: '文章标题', fixed: true}
-                , {field: 'type', title: '类型', width: 80}
+                , {field: 'type', title: '类型', width: 180}
                 , {field: 'author', title: '作者', width: 120}
                 , {field: 'time', title: '发布时间', width: 180}
                 , {fixed: 'right', title: '操作', width: 250, align: 'center', toolbar: '#barDemo'}
             ]]
-
             , id: 'testReload'
-            , page: true});
+            , page: true
+        })
         table.on('tool(news)', function (obj) {
             let data = obj.data;
             let layEvent = obj.event;
-            let tr = obj.tr; //获得当前行 tr 的DOM对象
             if (layEvent === 'detail') { //查看
-                layer.msg(data.username + '查看')
+                window.open('{% url 'indexNews' %}' + data.id)
             } else if (layEvent === 'del') { //删除
-                layer.msg(data.username + '删除')
+                $.getJSON('{% url 'delNews' %}', {'id': data.id}, (args) => {
+                    if (args.code === 1) {
+                        layer.msg('删除成功！');
+                        obj.del();
+                    } else {
+                        layer.msg('信息不存在或已删除！');
+                    }
+                })
             } else if (layEvent === 'edit') { //编辑
-                layer.msg(data.username + '编辑')
+                {#window.open('{% url 'updateNews' %}' + data.id)#}
+                window.open('../updateNews/' + data.id)
             }
         });
-        var active = {
+        let active = {
             reload: function () {
-                var demoReload = $('#demoReload');
+                let demoReload = $('#demoReload');
                 table.reload('testReload', {
                     page: {
                         curr: 1 //重新从第 1 页开始
@@ -85,7 +92,7 @@
             }
         };
         $('.demoTable .layui-btn').on('click', function () {
-            var type = $(this).data('type');
+            let type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
     });
