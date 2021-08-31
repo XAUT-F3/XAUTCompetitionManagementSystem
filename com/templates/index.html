@@ -321,7 +321,7 @@
             for (let i = 0; i < 3; i++) {
                 que[i].setAttribute("href", '{% url 'indexNews' %}' + news[i].id);
                 news_title[i].innerHTML = news[i].title;
-                news_date[i].innerHTML = news[i].time;
+                news_date[i].innerHTML = news[i].time.replace('Z', '').replace('T', ' ').slice(0, -3);
                 news_body[i].innerHTML = news[i].context;
                 news_body[i].innerText = news_body[i].innerText.slice(0, 100).replace(/[\s\r\\n]/g, "") + '...'
             }

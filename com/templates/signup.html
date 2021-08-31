@@ -12,15 +12,18 @@
     <link rel="stylesheet" href="../static/css/base.css">
     <link rel="stylesheet" href="../static/css/signup.css">
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="../static/layui/css/layui.css">
     <script src="../static/js/jquery-3.6.0.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../static/bootstrap/js/time/bootstrap-datetimepicker.min.js"></script>
-    <script src="../static/bootstrap/js/time/bootstrap-datetimepicker.zh-CN.js"></script>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+    </style>
 </head>
 <body>
-<form action="{% url 'signup' %}" method="POST" enctype="multipart/form-data">
+<form action="{% url 'signup' %}" method="POST" enctype="multipart/form-data" onsubmit="return checkPassword(this)">
     {% csrf_token %}
     <div class="container-fluid">
         <div class="row background" style="height: 150px;">
@@ -29,7 +32,7 @@
                 <span>西安理工大学竞赛管理系统</span>
             </div>
             <div class="col-md-4 white-font ">
-                <a href="login.html" class="white-font">已有账号，立刻登录</a>
+                <a href="{% url 'login' %}" class="white-font">已有账号，立刻登录</a>
             </div>
         </div>
     </div>
@@ -47,16 +50,22 @@
         <ul class="nav nav-tabs" id="mar" role="tablist">
             <li role="presentation" class="limit  active all-head">
                 <a href="#home" class="wid-mid" aria-controls="home" role="tab" data-toggle="tab"
-                   style="padding-left: 120px;">一、选择身份</a>
+                   style="padding-left: 120px;">
+                    一、选择身份
+                </a>
             </li>
             <li role="presentation" class="all-head">
                 <a href="#profile-student" class="wid-mid" aria-controls="profile-teacher" role="tab" data-toggle="tab"
                    id="must1"
-                   style="padding-left: 120px">二、填写信息</a>
+                   style="padding-left: 120px">
+                    二、填写信息
+                </a>
             </li>
             <li role="presentation" class="all-head">
                 <a href="#messages" class="wid-mid" aria-controls="messages" role="tab" data-toggle="tab" id="must2"
-                   style="padding-left: 120px">三、创建用户</a>
+                   style="padding-left: 120px">
+                    三、创建用户
+                </a>
             </li>
         </ul>
     </div>
@@ -128,11 +137,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="student-date" style="margin-left: 27px">出生日期</label><input type="text"
+                            <label for="student-date" style="margin-left: 27px">出生日期</label><input type="date"
                                                                                                    id="student-date"
                                                                                                    name="s_birthday"
                                                                                                    placeholder="Birthday"
-                                                                                                   class="form-control">
+                                                                                                   class="form-control"
+                                                                                                   style="width: 205px"
+                                                                                                   readonly>
                         </div>
 
                         <div class="form-group">
@@ -152,8 +163,9 @@
                         </div>
                         <div class="form-group">
                             <label for="student-phone" style="margin-left: 27px">电话号码</label>
-                            <input type="text" class="form-control" id="student-phone" maxlength="11" minlength="11"
-                                   placeholder="Phone" name="s_phone"/>
+                            <input type="tel" class="form-control" id="student-phone" maxlength="11" minlength="11"
+                                   placeholder="Phone" name="s_phone" data-content="此用户已注册！" data-toggle="popover"
+                                   data-placement="bottom"/>
                         </div>
                     </div>
                     <div class="col-xs-5">
@@ -165,8 +177,24 @@
 
                         <div class="form-group">
                             <label for="student-college" style="margin-left: 55px">学院</label>
-                            <input type="text" class="form-control" id="student-college" placeholder="College"
-                                   name="s_college">
+                            <select name="s_college" id="student-college" class="form-control">
+                                <option value="材料科学与工程学院">材料科学与工程学院</option>
+                                <option value="机械与精密仪器工程学院">机械与精密仪器工程学院</option>
+                                <option value="自动化与信息工程学院">自动化与信息工程学院</option>
+                                <option value="水利水电学院">水利水电学院</option>
+                                <option value="印刷包装与数字媒体学院">印刷包装与数字媒体学院</option>
+                                <option value="经济与管理学院">经济与管理学院</option>
+                                <option value="理学院">理学院</option>
+                                <option value="人文与外国语学院">人文与外国语学院</option>
+                                <option value="计算机科学与工程学院">计算机科学与工程学院</option>
+                                <option value="土木建筑工程学院">土木建筑工程学院</option>
+                                <option value="艺术与设计学院">艺术与设计学院</option>
+                                <option value="马克思主义学院">马克思主义学院</option>
+                                <option value="电气工程学院">电气工程学院</option>
+                                <option value="国际工学院">国际工学院</option>
+                                <option value="研究生院">研究生院</option>
+                            </select>
+
                         </div>
                         <div class="form-group">
                             <label for="student-grade" style="margin-left: 55px">年级</label>
@@ -180,7 +208,7 @@
                         </div>
                         <div class="form-group">
                             <label for="student-id" style="margin-left: 55px">学号</label>
-                            <input type="text" class="form-control" id="student-id" placeholder="Student id"
+                            <input type="number" class="form-control" id="student-id" placeholder="Student id"
                                    name="s_number">
                         </div>
                     </div>
@@ -229,10 +257,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="date" style="margin-left: 27px">出生日期</label><input type="text" id="date"
+                            <label for="date" style="margin-left: 30px">出生日期</label><input type="date" id="date"
                                                                                            name="t_birthday" value=""
                                                                                            placeholder="Birthday"
-                                                                                           class="form-control">
+                                                                                           class="form-control"
+                                                                                           style="width: 205px"
+                                                                                           readonly>
                         </div>
 
                         <div class="form-group">
@@ -268,8 +298,9 @@
                         </div>
                         <div class="form-group">
                             <label for="phone" style="margin-left: 27px">电话号码</label>
-                            <input type="text" class="form-control" id="phone" maxlength="11" minlength="11"
-                                   placeholder="Phone" name="t_phone"/>
+                            <input type="tel" class="form-control" id="phone" maxlength="11" minlength="11"
+                                   placeholder="Phone" name="t_phone" data-content="此用户已注册！" data-toggle="popover"
+                                   data-placement="bottom"/>
                         </div>
                     </div>
                     <div class="col-xs-5">
@@ -281,8 +312,29 @@
 
                         <div class="form-group">
                             <label for="college" style="margin-left: 55px">学院</label>
-                            <input type="text" class="form-control" id="college" placeholder="College"
-                                   name="t_ college">
+                            <select name="t_college" id="college" class="form-control">
+                                <option value="材料科学与工程学院">材料科学与工程学院</option>
+                                <option value="机械与精密仪器工程学院">机械与精密仪器工程学院</option>
+                                <option value="自动化与信息工程学院">自动化与信息工程学院</option>
+                                <option value="水利水电学院">水利水电学院</option>
+                                <option value="印刷包装与数字媒体学院">印刷包装与数字媒体学院</option>
+                                <option value="经济与管理学院">经济与管理学院</option>
+                                <option value="理学院">理学院</option>
+                                <option value="人文与外国语学院">人文与外国语学院</option>
+                                <option value="计算机科学与工程学院">计算机科学与工程学院</option>
+                                <option value="土木建筑工程学院">土木建筑工程学院</option>
+                                <option value="艺术与设计学院">艺术与设计学院</option>
+                                <option value="马克思主义学院">马克思主义学院</option>
+                                <option value="电气工程学院">电气工程学院</option>
+                                <option value="国际工学院">国际工学院</option>
+                                <option value="研究生院">研究生院</option>
+                                <option value="继续教育学院">继续教育学院</option>
+                                <option value="体育教学部">体育教学部</option>
+                                <option value="工程训练中心">工程训练中心</option>
+                                <option value="职业培训学院">职业培训学院</option>
+                            </select>
+
+
                         </div>
                         <div class="form-group">
                             <label for="grade" style="margin-left: 55px">职称</label>
@@ -301,7 +353,7 @@
                         </div>
                         <div class="form-group">
                             <label for="teacher-id" style="margin-left: 30px">教职工号</label>
-                            <input type="text" class="form-control" id="teacher-id" placeholder="Teacher id"
+                            <input type="number" class="form-control" id="teacher-id" placeholder="Teacher id"
                                    name="t_number">
                         </div>
                     </div>
@@ -331,7 +383,7 @@
                         <div class="input-group input-group-lg">
                             <span class="input-group-addon glyphicon glyphicon-lock"></span>
                             <input type="password" class="form-control" id="passwordagain" placeholder="Password again"
-                                   aria-describedby="basic-addon1" name = "password">
+                                   aria-describedby="basic-addon1" name="password">
                         </div>
                     </div>
                     <div class="col-md-5"></div>
@@ -348,4 +400,161 @@
 <script src="../static/js/layer/layer.js"></script>
 <script src="../static/layui/layui.js"></script>
 <script src="../static/js/signup.js"></script>
+<script type="text/javascript">
+    $('#student-phone').on('blur', () => {
+        $.getJSON('{% url 'checkIn' %}', {'phone': $('#student-phone').val()}, (args) => {
+            if (args.code === 1) {
+                $('#student-phone').popover('show');
+                document.getElementById('stu-btn').setAttribute('disabled', 'disabled');
+            } else {
+                $('#student-phone').popover('hide');
+                document.getElementById('stu-btn').removeAttribute('disabled');
+            }
+        })
+    })
+
+    $('#phone').on('blur', () => {
+        $.getJSON('{% url 'checkIn' %}', {'phone': $('#phone').val()}, (args) => {
+            if (args.code === 1) {
+                $('#phone').popover('show');
+                document.getElementById('tea-btn').setAttribute('disabled', 'disabled');
+            } else {
+                $('#phone').popover('hide')
+                document.getElementById('tea-btn').removeAttribute('disabled');
+            }
+        })
+    })
+
+</script>
+<script type="text/javascript">
+    function checkPassword(form) {
+        let password = $("#password");
+        let password_again = $("#passwordagain");
+        //密码正则，4到16位（字母，数字，下划线，减号）
+        let uPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,.\/]).{8,16}$/;
+        if (password.length < 8 || password.length > 16 || !uPattern.test(password)) {
+            layer.alert('请输入8-16位数字,字母,字符的组合', {
+                icon: 2,
+                skin: 'layer-ext-demo' //见：扩展说明
+            })
+            return false;
+        }
+        if (password.val() !== password_again.val()) {
+            layer.alert('请两次输入一样的密码!', {
+                icon: 2,
+                skin: 'layer-ext-demo' //见：扩展说明
+            })
+            return false;
+        }
+        return true;
+    }
+
+    let PHONE = 0;
+    // 开始student输入信息格式限制
+    $("#stu-btn").bind('click', function () {
+        let sex_obj = document.getElementsByName('s_sex');
+        if (sex_obj[0].checked !== true && sex_obj[1].checked !== true) {
+            layer.msg('选择性别!')
+            return;
+        }
+        let element = document.querySelectorAll('.stu .form-group input');
+        if (element[7].value === '') {
+            layer.msg('请上传照片')
+            return;
+        }
+        for (let i = 0; i < element.length; i++) {
+            if (element[i].value === '') {
+                layer.msg('请填写完整信息!')
+                return;
+            }
+        }
+        // 身份证正则
+        let cP = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+        if ($('#student-card').val() === '1' && !cP.test($('#student-InputID').val())) {
+            layer.msg('身份证格式错误!');
+            return;
+        }
+        // 手机号码正则
+        let mPattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+        if (!mPattern.test($('#student-phone').val())) {
+            layer.msg('手机号码格式错误！');
+            return;
+        }
+        //Email正则
+        let ePattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (!ePattern.test($('#student-email').val())) {
+            layer.msg('邮箱格式错误！');
+            return;
+        }
+        body[1].classList.remove('active');
+        body[3].classList.add('active');
+        head[2].classList.add('active');
+        head[1].classList.remove('active');
+        $("#username").val(element[6].value);
+    })
+    let FLAG = 0;  // 学生注册标记 如果是学生则进入学生信息界面
+    $('#tea-btn').bind('click', function () {
+        let sex_tea = document.getElementsByName('t_sex');
+        if (sex_tea[0].checked !== true && sex_tea[1].checked !== true) {
+            layer.msg('选择性别!', {})
+            return;
+        }
+        let teacher_data = document.querySelectorAll('.tea .form-group input');
+        if (teacher_data[7].value === '') {
+                layer.msg('请上传照片', {})
+                return;
+            }
+        for (let i = 0; i < teacher_data.length; i++) {
+            if (teacher_data[i].value === '') {
+                layer.msg('请填写完整信息!', {})
+                return;
+            }
+        }
+        // 身份证正则
+        let cP = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+        if ($('#card').val() === '1' && !cP.test($('#InputID').val())) {
+            layer.msg('身份证格式错误!');
+            return;
+        }
+        // 手机号码正则
+        let mPattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+        if (!mPattern.test($('#phone').val())) {
+            layer.msg('手机号码格式错误！');
+            return;
+        }
+        //Email正则
+        let ePattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (!ePattern.test($('#email').val())) {
+            layer.msg('邮箱格式错误！');
+            return;
+        }
+        body[2].classList.remove('active');
+        body[3].classList.add('active');
+        head[2].classList.add('active');
+        head[1].classList.remove('active');
+        FLAG = 1;
+        $("#username").val(teacher_data[6].value);
+    })
+
+    $('.fir').bind('click', function () {
+        body[2].classList.remove('active');
+        body[1].classList.remove('active');
+        body[0].classList.add('active');
+        head[1].classList.remove('active');
+        head[0].classList.add('active');
+    })
+    $('.sec').bind('click', function () {
+        head[2].classList.remove('active');
+        head[1].classList.add('active');
+        body[3].classList.remove('active');
+        if (FLAG === 0) {
+            body[1].classList.add('active');
+        } else {
+            body[2].classList.add('active');
+        }
+    })
+    // 取消第三个a标签的使用
+    document.getElementById("must1").href = "javascript:void(0)";
+    document.getElementById("must2").href = "javascript:void(0)";
+</script>
 </html>

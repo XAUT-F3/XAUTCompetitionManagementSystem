@@ -84,3 +84,5 @@ def updateNewsDetails(request):
         return JsonResponse({'code': 1})
     except:
         return JsonResponse({'code', 0})
+
+

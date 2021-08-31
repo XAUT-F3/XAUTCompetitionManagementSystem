@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../static/css/competitionEntry.css">
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/signup.css">
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
     <script src="../static/js/jquery-3.6.0.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
 </head>
@@ -37,15 +38,15 @@
     <!-- Nav tabs -->
     <div class="nave text-center">
         <ul class="nav nav-tabs" id="mar" role="tablist">
-            <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab"
+            <li role="presentation" class="active"><a disabled href="#home" role="tab" data-toggle="tab"
                                                       class="font">一、选择赛事赛题</a></li>
-            <li role="presentation"><a href="#profile" role="tab" data-toggle="tab"
+            <li role="presentation"><a role="tab" data-toggle="tab"
                                        class="font">二、确认个人信息</a></li>
-            <li role="presentation"><a href="#messages" role="tab" data-toggle="tab"
+            <li role="presentation"><a role="tab" data-toggle="tab"
                                        class="font">三、填写团队基本信息</a></li>
-            <li role="presentation"><a href="#settings" role="tab" data-toggle="tab"
+            <li role="presentation"><a role="tab" data-toggle="tab"
                                        class="font">四、邀请团队成员</a></li>
-            <li role="presentation"><a href="#end" role="tab" data-toggle="tab"
+            <li role="presentation"><a role="tab" data-toggle="tab"
                                        class="font">五、完成报名</a></li>
         </ul>
     </div>
@@ -68,7 +69,7 @@
                         id="selected"> 选择
                 </button>
             </div>
-            <button type="button" class="btn btn-default button-me button-before"> 退出</button>
+            <button type="button" class="btn btn-default button-me button-before exit-all"> 退出</button>
             <button type="button" class="btn btn-primary button-me" id="next-one">下一步</button>
 
 
@@ -101,53 +102,55 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label for="student-name" style="margin-left: 28px">姓名</label>
-                            <input type="text" class="form-control" id="student-name" placeholder="Name"
+                            <input type="text" class="form-control form-two" id="student-name" placeholder="Name"
                                    name="s_name" value="{{ myselfMessage.s_name }}">
                         </div>
 
 
                         <div class="form-group">
-                            <label for="student-date">出生日期</label>
-                            <input type="text" id="student-date" name="s_birthday" placeholder="Birthday"
-                                   class="form-control" value="{{ myselfMessage.s_birthday }}">
+                            <label for="student-dates">出生日期</label>
+                            <input type="date" id="student-dates" name="s_birthday" placeholder="Birthday"
+                                   class="form-control form-two" style="width: 200px"
+                                   value="{{ myselfMessage.s_birthday|date:'Y-m-d' }}">
                         </div>
 
 
                         <div class="form-group">
                             <label for="student-email">电子邮箱</label>
-                            <input type="email" class="form-control" id="student-email" placeholder="E-mail"
+                            <input type="email" class="form-control form-two" id="student-email" placeholder="E-mail"
                                    name="s_mail" value="{{ myselfMessage.s_mail }}">
                         </div>
                         <div class="form-group">
                             <label for="student-phone">电话号码</label>
-                            <input type="text" class="form-control" id="student-phone" maxlength="11" minlength="11"
+                            <input type="text" class="form-control form-two" id="student-phone" maxlength="11"
+                                   minlength="11"
                                    placeholder="Phone" name="s_phone" value="{{ myselfMessage.s_phone }}"/>
                         </div>
                     </div>
                     <div class="col-xs-5">
                         <div class="form-group">
                             <label for="student-college" style="margin-left: 55px">学院</label>
-                            <input type="text" class="form-control" id="student-college" placeholder="College"
+                            <input type="text" class="form-control form-two" id="student-college" placeholder="College"
                                    name="s_college" value="{{ myselfMessage.s_college }}">
                         </div>
                         <div class="form-group">
                             <label for="student-grade" style="margin-left: 55px">年级</label>
-                            <input type="text" class="form-control" id="student-grade" placeholder="Grade"
+                            <input type="text" class="form-control form-two" id="student-grade" placeholder="Grade"
                                    name="s_grade" value="{{ myselfMessage.s_grade }}">
                         </div>
                         <div class="form-group">
                             <label for="student-class" style="margin-left: 55px">班级</label>
-                            <input type="text" class="form-control" id="student-class" placeholder="Class"
+                            <input type="text" class="form-control form-two" id="student-class" placeholder="Class"
                                    name="s_class" value="{{ myselfMessage.s_class }}">
                         </div>
                         <div class="form-group">
                             <label for="student-id" style="margin-left: 55px">学号</label>
-                            <input type="text" class="form-control" id="student-id" placeholder="Student id"
+                            <input type="text" class="form-control form-two" id="student-id" placeholder="Student id"
                                    name="s_number" value="{{ myselfMessage.s_number }}">
                         </div>
                     </div>
                     <div class="col-xs-10">
-                        <button type="button" class="btn btn-default button-me button-before"> 退出</button>
+                        <button type="button" class="btn btn-default button-me button-before exit-all"> 退出</button>
                         <button type="button" class="btn btn-primary button-me btn-next" id="next-two">下一步</button>
                     </div>
                 </div>
@@ -160,17 +163,19 @@
             <h3><span>团队基本信息</span></h3>
             <div class="form-group" style="margin-bottom: 0;padding-bottom: 0;">
                 <label for="exampleInputName1"><span style="color: orangered">* </span> 团队名称</label>
-                <input type="text" class="form-control form-little" id="exampleInputName1" style="width: 300px"
+                <input type="text" class="form-control form-little form-three" id="exampleInputName1"
+                       style="width: 300px"
                        name="T_name">
             </div>
             <div class="form-group" style="margin-bottom: 0;padding-bottom: 0;">
                 <label for="exampleInputEmail"><span style="color: orangered">* </span> 团队口号</label>
-                <input type="text" class="form-control form-little" id="exampleInputEmail" style="width: 300px"
+                <input type="text" class="form-control form-little form-three" id="exampleInputEmail"
+                       style="width: 300px"
                        name="T_slogan">
             </div>
             <div class="form-group" style="margin-bottom: 0;padding-bottom: 0;">
                 <label for="introduce"><span style="color: orangered">* </span> 团队介绍</label>
-                <textarea class="form-control" rows="3" id="introduce"
+                <textarea class="form-control form-three" rows="3" id="introduce"
                           style="width: 735px; resize: none" name="T_intro"></textarea>
             </div>
             <div class="form-group" style="margin-bottom: 0;padding-bottom: 0;">
@@ -179,7 +184,8 @@
                           style="width: 735px; resize: none" name="T_remark"></textarea>
             </div>
             <div class="col-xs-10">
-                <button type="button" class="btn btn-default button-me button-before" style="margin-left: 200px">
+                <button type="button" class="btn btn-default button-me button-before exit-all"
+                        style="margin-left: 200px">
                     退出
                 </button>
                 <button type="button" class="btn btn-primary button-me btn-next" id="next-three">下一步</button>
@@ -224,8 +230,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal"> 关闭 </button>
-                                <button type="button" class="btn btn-primary" id="submit-invite"> 邀请 </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"> 关闭</button>
+                                <button type="button" class="btn btn-primary" id="submit-invite"> 邀请</button>
                             </div>
                         </div>
                     </div>
@@ -247,37 +253,178 @@
                     </table>
                 </div>
                 <label>指导教师</label>
-                <button type="button" class="btn btn-primary" aria-label="Left Align" id="invite-teacher">
+                <button type="button" class="btn btn-primary" aria-label="Left Align" id="invite-teacher"
+                        data-toggle="modal" data-target="#invite-table">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" style="margin: 0 0"></span> 邀请指导教师
                 </button>
                 <div class="for-table">
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover table-bordered" id="teacher-table">
                         <thead>
                         <tr>
                             <th>#</th>
                             <th>姓名</th>
+                            <th>电话</th>
                             <th>接受状态</th>
-                            <th>操作</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tea-table-body">
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="col-xs-10">
-                <button type="button" class="btn btn-default button-me button-before" style="margin-left: 200px">
+                <button type="button" class="btn btn-default button-me button-before exit-all"
+                        style="margin-left: 200px">
                     退出
                 </button>
                 <button type="button" class="btn btn-primary button-me btn-next" id="next-four">下一步</button>
             </div>
         </div>
         <!--完成报名-->
-        <div role="tabpanel" class="tab-pane in body" id="end">5</div>
+        <div role="tabpanel" class="tab-pane in body" id="end">结束</div>
     </div>
 </div>
 </body>
 <script src="../static/js/layer/layer.js"></script>
+<script src="../static/layui/layui.js"></script>
 <script src="../static/js/competitionEntry.js"></script>
+<script>
+    $('#selected').bind('click', function () {
+        let temp = document.getElementById('competition-name');
+        $.getJSON('race_message/', {'id': temp.value}, function (data) {
+            {#// $.getJSON("{% URL 'applyMessages' %}", {'id': temp.value}, function (data) {#}
+            let obj = document.getElementById('radio-data');
+            obj.innerHTML = '';
+            for (let i = 0; i < data.length; i++) {
+                obj.innerHTML += '<div class="radio">\n' +
+                    '<label>\n' +
+                    '<input type="radio" name="T_message" value=' +
+                    data.messages[i].id + '>\n' +
+                    '<span>' +
+                    data.messages[i].m_name +
+                    '</span>' +
+                    '</label>\n' +
+                    '</div>';
+            }
+        })
+    })
 
+    $('#select-message').bind('click', function () {
+        $('#competition-message').val($("input[name='T_message']:checked").next("span").text());
+        $('#myModal').modal('hide');
+    })
+
+    let head = document.querySelectorAll('#mar li');
+    let body = document.querySelectorAll('.body');
+    let remove = (start, end) => {
+        body[start].classList.remove('active');
+        head[start].classList.remove('active');
+        body[end].classList.add('active');
+        head[end].classList.add('active');
+    }
+    $('#next-one').bind('click', function () {
+        if ($("input[name='T_message']:checked").next("span").text().length === 0) {
+            layer.msg('请选择相应赛题！');
+            return;
+        }
+        remove(0, 1);
+    })
+    $('#next-two').bind('click', function () {
+        let formTwo = document.querySelectorAll('.f orm-two');
+        for (let i = 0; i < formTwo.length; i++) {
+            if (formTwo[i].value.length === 0) {
+                layer.msg('修改后信息不能为空！');
+                return;
+            }
+        }
+
+        remove(1, 2);
+    })
+    let team_id = -1;
+    $('#next-three').bind('click', function () {
+        let formThree = document.querySelectorAll('.form-three');
+        for (let i = 0; i < formThree.length; i++) {
+            if (formThree[i].value.length === 0) {
+                layer.msg('请输入完整信息！');
+                return;
+            }
+        }
+        let data = {
+            's_name': $('input[name=s_name]').val(),
+            's_birthday': $('input[name=s_birthday]').val(),
+            's_college': $('input[name=s_college]').val(),
+            's_grade': $('input[name=s_grade]').val(),
+            's_class': $('input[name=s_class]').val(),
+            's_number': $('input[name=s_number]').val(),
+            's_mail': $('input[name=s_mail]').val(),
+            's_phone': $('input[name=s_phone]').val(),
+            'T_message': $('input[name=T_message]:checked').val(),
+            'T_name': $('input[name=T_name]').val(),
+            'T_slogan': $('input[name=T_slogan]')["0"].value,
+            'T_intro': $('#introduce')["0"].value,
+            'T_leader': $('input[name=s_name]').val(),
+            'T_phone': $('input[name=s_phone]').val(),
+            'T_remark': $('#remark')["0"].value
+        };
+        // 调用Ajax上传数据
+        $.post('team/', data, (args) => {
+            if (args.code === 1) {
+                team_id = args.team_id;
+                layer.msg('报名成功');
+                remove(2, 3);
+                document.getElementById('captain').setAttribute('value', $('#student-name').val());
+            } else {
+                layer.msg(args.msgs);
+            }
+        })
+    })
+
+    let typeOfMember = -1
+    $('#invite-student').bind('click', () => {
+        typeOfMember = 0;
+    });
+    $('#invite-teacher').bind('click', () => {
+        typeOfMember = 1;
+    });
+    $('#submit-invite').bind('click', () => {
+        let tel = $('#invite-tel').val();
+        let name = $('#invite-name').val();
+        if (tel.length === 0 || name.length === 0) {
+            layer.msg('信息不能为空！');
+        } else {
+            $.getJSON('{% url 'addMatchMember' %}', {
+                'phone': tel,
+                'name': name,
+                'team_id': team_id,
+                'type': typeOfMember
+            }, (data) => {
+                layer.msg(data.msgs);
+                if (data.code === 1 && data.type === 0) {
+                    $('#invite-table').modal('hide');  // 关闭窗口
+                    let len = $('#student-table tbody tr').length + 1;  // 数行数
+                    document.getElementById('stu-table-body').innerHTML += '<tr>\n' +
+                        '<td>' + len + '</td>\n' +
+                        '<td>' + name + '</td>\n' +
+                        '<td>' + tel + '</td>\n' +
+                        '<td>' + '待接受' + '</td>\n' +
+                        '</tr>';
+                } else if (data.code === 1 && data.type === 1) {
+                    $('#invite-table').modal('hide');  // 关闭窗口
+                    let len = $('#teacher-table tbody tr').length + 1;  // 数行数
+                    document.getElementById('tea-table-body').innerHTML += '<tr>\n' +
+                        '<td>' + len + '</td>\n' +
+                        '<td>' + name + '</td>\n' +
+                        '<td>' + tel + '</td>\n' +
+                        '<td>' + '待接受' + '</td>\n' +
+                        '</tr>';
+                }
+            })
+        }
+    })
+
+
+    $('.exit-all').on('click', () => {
+        location.href = '../'
+    })
+</script>
 </html>

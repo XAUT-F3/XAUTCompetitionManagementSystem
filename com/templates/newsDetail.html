@@ -30,7 +30,7 @@
                         <div class="title">
                             <p>{{ news.title }}</p>
                             <div class="layui-row stat">
-                                <div class="layui-col-md3 layui-col-xs12">发布时间：<em>{{ news.time }}</em></div>
+                                <div class="layui-col-md3 layui-col-xs12">发布时间：<em>{{ news.time | date:"Y-m-d H:i"}}</em></div>
                                 <div class="layui-col-md2 layui-col-xs6">分类：{{ news.type }}</div>
                                 <div class="layui-col-md2 layui-col-xs6">作者：{{ news.author }}</div>
 

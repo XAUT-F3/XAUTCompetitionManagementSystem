@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'uauth',
     'apply',
-    'admins'
+    'admins',
+    'center'
 ]
 
 MIDDLEWARE = [
@@ -76,9 +77,6 @@ TEMPLATES = [
 # MDEIA_ROOT = os.path.join(BASE_DIR, r'static/upfile')
 MEDIA_URL = 'static/upfile/'
 MEDIA_ROOT = os.path.join(BASE_DIR, r'static/upfile')
-
-
-
 
 WSGI_APPLICATION = 'com.wsgi.application'
 

@@ -23,5 +23,6 @@ urlpatterns = [
     # url(r'^stu/', include(('stu.urls','stu'), namespace='s')),
     path('', include('uauth.urls')),
     path('apply/', include('apply.urls')),
-    path('admins/', include('admins.urls'))
+    path('admins/', include('admins.urls')),
+    path('', include('center.urls'))
 ]

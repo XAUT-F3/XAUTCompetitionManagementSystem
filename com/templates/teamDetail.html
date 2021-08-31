@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="Author" content="Lee">
+    <meta name="Keywords" content="后台模板">
+    <title></title>
+    <link rel="stylesheet" href="../../../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../../../static/css/public.css"/>
+    <script src="../../../static/layui/layui.js"></script>
+</head>
+<body>
+<div class="width_80">
+    <form class="layui-form" action="{% url 'updateTeamDetails' %}" method="post">
+        <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        {% csrf_token %}
+        <div style="display: none"><input id="team-id" type="text" value="{{ teamID }}" name="team_id"></div>
+        <div class="layui-inline layui-col-md6">
+            <label class="layui-form-label">大赛名称</label>
+            <div class="layui-input-block">
+                <input type="text" placeholder="请输入" name="raceName" autocomplete="off" class="layui-input"
+                       value="{{ raceName }}" readonly>
+            </div>
+        </div>
+        <div class="layui-inline layui-col-md6">
+            <label class="layui-form-label">所属赛题</label>
+            <div class="layui-input-block">
+                <input type="text" placeholder="请输入" name="messageName" autocomplete="off" class="layui-input"
+                       value="{{ messageName }}" readonly>
+            </div>
+        </div>
+        <div class="layui-inline layui-col-md6">
+            <label class="layui-form-label">团队名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="teamName" placeholder="请输入" autocomplete="off" class="layui-input"
+                       value="{{ teamName }}">
+            </div>
+        </div>
+        <div class="layui-inline layui-col-md6">
+            <label class="layui-form-label">队伍口号</label>
+            <div class="layui-input-block">
+                <input type="text" name="slogan" placeholder="请输入" autocomplete="off" class="layui-input"
+                       value="{{ slogan }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">队伍介绍</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" name="teamIntro">{{ teamIntro }}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="remark">{{ remark }}</textarea>
+            </div>
+        </div>
+        <div class="layui-inline layui-col-md6">
+            <label class="layui-form-label">队长</label>
+            <div class="layui-input-block">
+                <input type="text" name="captain" placeholder="请输入" autocomplete="off" class="layui-input"
+                       value="{{ captain }}">
+            </div>
+        </div>
+        <div class="layui-inline layui-col-md6">
+            <label class="layui-form-label">队伍状态</label>
+            <div class="layui-input-block">
+                <input type="text" name="state" placeholder="请输入" autocomplete="off" class="layui-input"
+                       value="{{ state }}">
+            </div>
+        </div>
+        <div class="layui-inline layui-col-md6">
+            <label class="layui-form-label">队长手机</label>
+            <div class="layui-input-block">
+                <input type="text" name="captainPhone" placeholder="请输入" autocomplete="off" class="layui-input"
+                       value="{{ captainPhone }}">
+            </div>
+        </div>
+        <div class="layui-inline layui-col-md6">
+            <label class="layui-form-label">获奖情况</label>
+            <div class="layui-input-block">
+                <select name="honor" lay-verify="">
+                    <option value=""></option>
+                    {% for hon in allHonor %}
+                        {% if hon.honor == honor %}
+                            <option value="{{ hon.honor }}" selected>{{ hon.honor }}</option>
+                        {% else %}
+                            <option value="{{ hon.honor }}">{{ hon.honor }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+            </div>
+        </div>
+    </form>
+    <div class="layui-inline layui-col-md8">
+        <button class="layui-btn layui-btn-normal" id="addMember">添加成员</button>
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>成员姓名</th>
+                <th>成员电话</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="stu-body">
+            {% for stu in studentList %}
+                <tr>
+                    <td>{{ stu.s_name }}</td>
+                    <td>{{ stu.s_phone }}</td>
+                    <td>
+                        <a href="{% url 'deleteMessage' %}?team_id={{ teamID }}&phone={{ stu.s_phone }}&type=0">
+                            <button class="layui-btn layui-btn-danger">删除</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="layui-inline layui-col-md8">
+        <button class="layui-btn layui-btn-normal" id="addTeacher">添加指导老师</button>
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>导师姓名</th>
+                <th>导师电话</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="tea-body">
+            {% for tea in teacherList %}
+                <tr>
+                    <td>{{ tea.t_name }}</td>
+                    <td>{{ tea.t_phone }}</td>
+                    <td>
+                        <a href="{% url 'deleteMessage' %}?team_id={{ teamID }}&phone={{ tea.t_phone }}&type=1">
+                            <button class="layui-btn layui-btn-danger">删除</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<script src="../../../static/js/jquery-3.6.0.min.js"></script>
+<script>
+    $(".layui-layer-content").append("<br/><input type=\"text\" id= \"zxr\" class=\"layui-input\" placeholder=\"输入注销人\"/>")
+    layui.use(['laydate', 'form', 'element', 'jquery'], function () {
+        var form = layui.form;
+        var laydate = layui.laydate
+        form.render();
+        laydate.render({
+            elem: '#time'
+            , type: 'datetime'
+        });
+        var $ = layui.$;
+    });
+
+
+    function getPage() {
+        let page = layer.open({
+            title: '请填写成员信息',
+            type: 1,
+            area: ['400px', '250px'],
+            shadeClose: true, //点击遮罩关闭
+            content: '    <div class="layui-form-item" style="margin-top: 20px">\n' +
+                '        <label class="layui-form-label">成员姓名</label>\n' +
+                '        <div class="layui-input-block">\n' +
+                '            <input id="username" type="text" required lay-verify="required" placeholder="请输入" autocomplete="off"\n' +
+                '                   class="layui-input" style="width: 220px">\n' +
+                '        </div>\n' +
+                '    </div>\n' +
+                '    <div class="layui-form-item">\n' +
+                '        <label class="layui-form-label">电话号码</label>\n' +
+                '        <div class="layui-input-block">\n' +
+                '            <input id="userPhone" type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off"\n' +
+                '                   class="layui-input" style="width: 220px">\n' +
+                '        </div>\n' +
+                '    </div>\n' +
+                '<button id="close" class="layui-btn layui-btn-primary layui-border-blue" style="margin-left: 120px; margin-top: 10px">取消</button>\n' +
+                '<button id="makeSure" class="layui-btn layui-btn-normal" style="margin-left: 60px; margin-top: 10px">确认</button>'
+        });
+        $('#close').on('click', () => {
+            layer.close(page);
+        })
+        $('#makeSure').on('click', () => {
+            let type = typeOfMember;
+            let name = $('#username').val()
+            let phone = $('#userPhone').val()
+            let team_id = $('#team-id').val()
+            if (name.length === 0 || phone.length === 0) {
+                layer.msg('填写信息不能为空！');
+                return;
+            }
+            $.getJSON('{% url 'adminsAddMember' %}', {
+                'phone': phone,
+                'name': name,
+                'team_id': team_id,
+                'type': type
+            }, (data) => {
+                layer.msg(data.msgs);
+                if (data.code === 1 && data.type === 0) {
+                    document.getElementById('stu-body').innerHTML +=
+                        '<tr>\n' +
+                        '<td> ' + name + '</td>\n' +
+                        '<td>' + phone + '</td>\n' +
+                        '<td>\n' +
+                        '<a href="{% url 'deleteMessage' %}?team_id={{ teamID }}&phone=' + phone + '&type=0">\n' +
+                        '<button class="layui-btn layui-btn-danger">删除</button>\n' +
+                        '</a>\n' +
+                        '</td>\n' +
+                        '</tr>';
+                    layer.close(page);
+                } else if (data.code === 1 && data.type === 1) {
+                    document.getElementById('tea-body').innerHTML +=
+                        '<tr>\n' +
+                        '<td> ' + name + '</td>\n' +
+                        '<td>' + phone + '</td>\n' +
+                        '<td>\n' +
+                        '<a href="{% url 'deleteMessage' %}?team_id={{ teamID }}&phone=' + phone + '&type=1">\n' +
+                        '<button class="layui-btn layui-btn-danger">删除</button>\n' +
+                        '</a>\n' +
+                        '</td>\n' +
+                        '</tr>';
+                    layer.close(page);
+                }
+            })
+        })
+    }
+
+    let typeOfMember = -1
+    $('#addMember').on('click', () => {
+        typeOfMember = 0;
+        getPage()
+    })
+
+    $('#addTeacher').on('click', () => {
+        typeOfMember = 1;
+        getPage()
+    })
+</script>
+</html>

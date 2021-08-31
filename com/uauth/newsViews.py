@@ -22,7 +22,6 @@ def checkLogin(request):
         ticket = request.COOKIES.get('ticket')
         users = Users.objects.get(u_ticket=ticket)
         request.ticket = ticket
-        print(users, users.u_name)
         return {"is_login": 1, "users": users}
     else:
         return {"is_login": 0}

@@ -324,9 +324,7 @@
                     let context = $('.page-context');
                     for (let i = 0; i < this.limit; i++) {
                         title[i].innerHTML = args.data[i].title;
-                        let idle = 1
                         title[i].setAttribute("href", '{% url 'indexNews' %}' + args.data[i].id);
-
                         context[i].innerHTML = args.data[i].context;
                         context[i].innerText = context[i].innerText.replace(/[\s\r\\n]/g, "");
                         type[i].innerHTML = args.data[i].type;

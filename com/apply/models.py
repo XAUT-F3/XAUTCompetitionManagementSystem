@@ -15,9 +15,18 @@ from django.db import models
 
 class Race_name(models.Model):
     r_name = models.CharField(max_length=30)  # 赛事名称
+    start_date = models.DateTimeField(default='2001-10-09 00:00:00')  # 开始时间
+    end_date = models.DateTimeField(default='2001-10-09 00:00:00')  # 结束时间
 
     class Meta:
         db_table = 'race_name'
+
+
+class Honor(models.Model):
+    honor = models.CharField(max_length=10)  # 奖项名称
+
+    class Meta:
+        db_table = 'honor'
 
 
 class Race_Message(models.Model):
@@ -52,6 +61,7 @@ class Member(models.Model):
     team_id = models.IntegerField()  # 队伍id
     member_id = models.IntegerField()  # 成员id
     invite_state = models.IntegerField()  # 邀请状态，0为邀请中，1为已邀请成功
+    type = models.IntegerField()  # 用户类型，0表示学生，1表示老师
 
     class Meta:
         db_table = 'member'

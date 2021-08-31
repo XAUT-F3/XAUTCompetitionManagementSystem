@@ -12,6 +12,6 @@ urlpatterns = [
     path('self_message/', views.self_message, name='selfMessages'),  # 获取个人信息
     path('confirm_self/', views.confirm_self),
     path('team/', views.team, name='applyTeam'),  # 提交队伍信息
-    path('addMatchStudent/', views.addMatchStudent, name='addMatchStudent'),  # 提交队伍信息
-    path('deleteMessage/', views.deleteMessage, name='deleteMessage')  # 删除个人参赛信息
+    path('addMatchMember/', views.addMatchMember, name='addMatchMember'),  # 提交队伍信息
+    path('deleteMessage/', views.deleteMessage, name='deleteMessage'),  # 删除个人参赛信息  暂时不会用到
 ]

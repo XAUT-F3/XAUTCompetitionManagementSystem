@@ -3,7 +3,7 @@ import time
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 # Create your views here.
@@ -13,6 +13,7 @@ from .models import Users, students, teachers
 import os
 from django.conf import settings
 from . import newsViews
+
 """def index(request):
     if request.method == 'GET':
         return render(request, 'index.html')
@@ -166,6 +167,14 @@ def logout(request):
         response = render(request, 'index.html', {"is_login": 0})
         response.delete_cookie('ticket')
         return response
+
+
+def checkIn(request):  # 查看用户是否存在
+    phone = request.GET.get('phone')
+    if len(Users.objects.filter(u_phone=phone)) > 0:
+        return JsonResponse({'code': 1})
+    else:
+        return JsonResponse({'code': 0})
 
 
 """def updateinfo(request):
