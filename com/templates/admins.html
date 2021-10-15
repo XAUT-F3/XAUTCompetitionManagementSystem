@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="Author" content="Lee">
-    <meta name="Keywords" content="后台模板">
+    <meta name="Keywords" content="后台">
     <title></title>
     <link rel="stylesheet" href="../../static/layui/css/layui.css">
     <link rel="stylesheet" href="../../static/css/public.css"/>
     <script src="../../static/layui/layui.js"></script>
+    <style>
+        .font-fav {
+            width: 80px;
+            height: 80px;
+            margin-left: 50px;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,6 +24,7 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="">刷新</a></li>
             <li class="layui-nav-item"><a href=""></a></li>
+            <!--
             <li class="layui-nav-item"><a href="">用户</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
@@ -27,8 +34,9 @@
                     <dd><a href="">授权管理</a></dd>
                 </dl>
             </li>
+            -->
         </ul>
-        <ul class="layui-nav layui-layout-right">
+        <!--<ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     锁屏
@@ -38,16 +46,17 @@
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="">退出</a></li>
-        </ul>
+        </ul>-->
     </div>
 
     <!-- 侧边栏 -->
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
-            <img src="" class="user_img"/>
-            <h1 class="user_name">你好！Lee,欢迎登陆</h1>
+            <img src="../../static/images/picture.jpg" class="font-fav"/>
+            <img src="../../static/images/temp01.JPG" class="user_img" style="display: none"/>
+            <h1 class="user_name">你好！欢迎登陆</h1>
             <ul class="layui-nav layui-nav-tree" lay-filter="left-nav">
-                <li class="layui-nav-item"><!-- layui-nav-itemed-->
+                <li class="layui-nav-item">
                     <a href="javascript:;"><i class="layui-icon">&#xe63c;</i> 新闻资讯</a>
                     <dl class="layui-nav-child">
                         <dd><a href="#" data-url="{% url 'getNewsList' %}" data-id="1" class="left_nav"><i
@@ -59,9 +68,9 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;"><i class="layui-icon">&#xe698;</i>赛事信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" data-url="../productList.html" data-id="3" class="left_nav"><i
+                        <dd><a href="javascript:;" data-url="{% url 'RaceList' %}" data-id="3" class="left_nav"><i
                                 class="layui-icon">&#xe60a;</i> 赛事列表</a></dd>
-                        <dd><a href="javascript:;" data-url="../productDetail.html" data-id="4" class="left_nav"><i
+                        <dd><a href="javascript:;" data-url="{% url 'addRace' %}" data-id="4" class="left_nav"><i
                                 class="layui-icon">&#xe654;</i> 新增赛事</a></dd>
                     </dl>
                 </li>
@@ -72,6 +81,7 @@
                                 class="layui-icon">&#xe6b2;</i>查看队伍</a></dd>
                     </dl>
                 </li>
+                <!--
                 <li class="layui-nav-item">
                     <a href="javascript:;"><i class="layui-icon">&#xe62e;</i>树形图</a>
                     <dl class="layui-nav-child">
@@ -90,6 +100,7 @@
                                 class="layui-icon">&#xe62c;</i>饼图</a></dd>
                     </dl>
                 </li>
+
                 <li class="layui-nav-item">
                     <a href="javascript:;"><i class="layui-icon">&#xe612;</i>个人信息</a>
                     <dl class="layui-nav-child">
@@ -98,7 +109,7 @@
                         <dd><a href="javascript:;" data-url="personclData.html" data-id="10" class="left_nav"><i
                                 class="layui-icon">&#xe621;</i>个人资料</a></dd>
                     </dl>
-                </li>
+                </li>-->
             </ul>
         </div>
     </div>

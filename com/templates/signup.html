@@ -23,7 +23,8 @@
     </style>
 </head>
 <body>
-<form action="{% url 'signup' %}" method="POST" enctype="multipart/form-data" onsubmit="return checkPassword(this)">
+<form action="" method="POST" enctype="multipart/form-data" id="form"
+      onsubmit="return checkPassword()">
     {% csrf_token %}
     <div class="container-fluid">
         <div class="row background" style="height: 150px;">
@@ -385,11 +386,18 @@
                             <input type="password" class="form-control" id="passwordagain" placeholder="Password again"
                                    aria-describedby="basic-addon1" name="password">
                         </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon glyphicon glyphicon-send"></span>
+                            <input style="width: 240px" type="text" class="form-control" id="code" name="email_code"
+                                   placeholder="请输入验证码"
+                                   aria-describedby="basic-addon1">
+                            <button type="button" class="btn btn-primary" id="get-code"> 获取</button>
+                        </div>
                     </div>
                     <div class="col-md-5"></div>
                     <div class="col-xs-10">
                         <button type="button" class="btn btn-primary pri-btn sec">上一步</button>
-                        <button type="submit" class="btn btn-primary pri-btn" id="submit">完成</button>
+                        <button type="button" class="btn btn-primary pri-btn" id="submit">完成</button>
                     </div>
                 </div>
             </div>
@@ -427,11 +435,27 @@
 
 </script>
 <script type="text/javascript">
-    function checkPassword(form) {
-        let password = $("#password");
-        let password_again = $("#passwordagain");
+    $('#get-code').on('click', () => {
+        let type = document.getElementsByName('type');
+        let email = $('#email').val();
+        if (type[0].checked === true) {  // 参赛队员0为真
+            email = $('#student-email').val();
+        }
+        $.getJSON('{% url 'sendEmail' %}', {'email': email}, (args) => {  // 如果为0则是发送邮箱， 1为验证邮箱
+            if (args.code === 1) {
+                layer.msg('验证码已发送至邮箱， 请注意查收~');
+            }
+        })
+    })
+
+
+    function checkPassword() {
+        let password = $("#password").val();
+        let password_again = $("#passwordagain").val();
+        let code = $('#code').val();
+        console.log(code);
         //密码正则，4到16位（字母，数字，下划线，减号）
-        let uPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,.\/]).{8,16}$/;
+        let uPattern = /^(?=.*[a-zA-Z])(?=.*\d).{8,16}$/;
         if (password.length < 8 || password.length > 16 || !uPattern.test(password)) {
             layer.alert('请输入8-16位数字,字母,字符的组合', {
                 icon: 2,
@@ -439,15 +463,46 @@
             })
             return false;
         }
-        if (password.val() !== password_again.val()) {
+        if (password !== password_again) {
             layer.alert('请两次输入一样的密码!', {
                 icon: 2,
                 skin: 'layer-ext-demo' //见：扩展说明
             })
             return false;
         }
+        if (code.length === 0) {
+            layer.alert('验证码不能为空！');
+            return false;
+        }
         return true;
     }
+
+    $('#submit').on('click', () => {
+        if (!checkPassword()) return;
+        let form = new FormData(document.getElementById('form'));
+        $.ajax({
+            type: "POST",
+            url: '{% url 'signup' %}',
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.code === 0) {
+                    layer.alert('验证码输入错误！');
+                } else {
+                    layer.confirm('恭喜您，注册成功！', {
+                        btn: ['确认'] //按钮
+                    }, function () {
+                        window.location.href = "../";
+                    });
+                }
+            },
+            error: function (e) {
+                alert("服务器繁忙！");
+            }
+        });
+    });
+
 
     let PHONE = 0;
     // 开始student输入信息格式限制
@@ -492,6 +547,7 @@
         head[1].classList.remove('active');
         $("#username").val(element[6].value);
     })
+
     let FLAG = 0;  // 学生注册标记 如果是学生则进入学生信息界面
     $('#tea-btn').bind('click', function () {
         let sex_tea = document.getElementsByName('t_sex');
@@ -501,9 +557,9 @@
         }
         let teacher_data = document.querySelectorAll('.tea .form-group input');
         if (teacher_data[7].value === '') {
-                layer.msg('请上传照片', {})
-                return;
-            }
+            layer.msg('请上传照片', {})
+            return;
+        }
         for (let i = 0; i < teacher_data.length; i++) {
             if (teacher_data[i].value === '') {
                 layer.msg('请填写完整信息!', {})
@@ -554,7 +610,7 @@
         }
     })
     // 取消第三个a标签的使用
-    document.getElementById("must1").href = "javascript:void(0)";
-    document.getElementById("must2").href = "javascript:void(0)";
+    /*    document.getElementById("must1").href = "javascript:void(0)";
+        document.getElementById("must2").href = "javascript:void(0)";*/
 </script>
 </html>

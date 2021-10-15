@@ -19,7 +19,7 @@ def getData(request):
         首先通过race_id查看所有所有有关的赛事id
         接下来通过赛事id查看所有比赛队伍，此处可以获取队长姓名和电话
         接下来可以查看member成员
-        """
+    """
     race_id = int(request.GET.get('race_id'))
     messages = Race_Message.objects.filter(m_race=race_id)
     teams = []

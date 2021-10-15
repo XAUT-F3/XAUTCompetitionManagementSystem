@@ -12,7 +12,7 @@ from .models import Users, students, teachers
 # from stu.models import StudentInfo
 import os
 from django.conf import settings
-from . import newsViews
+from . import newsViews, emailViews
 
 """def index(request):
     if request.method == 'GET':
@@ -39,6 +39,9 @@ def signup(request):
         number = request.POST.get('number')
         teacher_name = request.POST.get('teacher_name')
         mail = request.POST.get('mail')"""
+        if not emailViews.send_email(request):
+            return JsonResponse({'code': 0})
+
         judge = request.POST.get('type')
         if judge == "student":
             s_name = request.POST.get('s_name')
@@ -92,8 +95,8 @@ def signup(request):
         with open(filePath, 'wb') as fp:
             for info in picture.chunks():
                 fp.write(info)
-        return render(request, 'index.html', {'is_login': 0})
-        # return HttpResponse("注册成功")
+        return JsonResponse({'code': 1})
+        # return render(request, 'index.html', {'is_login': 0})
 
 
 """def signup(request):

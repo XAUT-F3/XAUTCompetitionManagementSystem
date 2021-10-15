@@ -123,7 +123,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -133,3 +133,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 LOGIN_URL = '/login/'
+
+# 邮箱验证授权码   千万不能外泄！！
+# 邮件功能配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.qq.com'  # QQ邮箱SMTP服务器地址
+EMAIL_PORT = 25  # 服务器端口号,默认25
+EMAIL_HOST_USER = '2873942228@qq.com'
+EMAIL_HOST_PASSWORD = 'byhrygzjormuddcf'
+EMAIL_FROM = '2873942228@qq.com'

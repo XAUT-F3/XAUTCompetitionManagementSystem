@@ -50,3 +50,10 @@ class teachers(models.Model):
 
     class Meta:
         db_table = 'teachers'
+
+
+class college(models.Model):
+    college_name = models.CharField(max_length=15, null=False);
+
+    class Meta:
+        db_table = 'college'

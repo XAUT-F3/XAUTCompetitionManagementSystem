@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="Author" content="Lee">
+    <meta name="Keywords" content="后台模板">
+    <title></title>
+    <link rel="stylesheet" href="../../../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../../../static/css/public.css"/>
+    <script src="../../../static/js/jquery-1.8.3.min.js"></script>
+    <script src="../../../static/layui/layui.js"></script>
+    <script src="../../../static/js/layer/layer.js"></script>
+</head>
+<body>
+<div class="width_80">
+    {% for obj in objs %}
+        <form class="layui-form" action="{% url 'raceUpdateDetailsFunction' %}" method="post">
+            <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+            {% csrf_token %}
+            <input type="number" value="{{ obj.id }}" name="id" style="display: none">
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label">大赛名称</label>
+                <div class="layui-input-block">
+                    <input type="text" placeholder="请输入" autocomplete="off" class="layui-input"
+                           value="{{ name }}" readonly>
+                </div>
+            </div>
+
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label">所属赛题</label>
+                <div class="layui-input-block">
+                    <input type="text" placeholder="请输入" value="{{ obj.m_name }}" name="name" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">赛题内容</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-textarea" name="content">{{ obj.m_content }}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">报名要求</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-textarea" name="signupRequest">{{ obj.m_signup_request }}</textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">作品要求</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" class="layui-textarea"
+                              name="workRequest">{{ obj.m_work_request }}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>
+                    <button type="button" class="layui-btn layui-btn-danger delete-message" value="{{ obj.id }}">立即删除
+                    </button>
+                </div>
+            </div>
+        </form>
+    {% endfor %}
+</div>
+</body>
+
+
+<script>
+    $(document).ready(() => {
+        let message = document.querySelectorAll('.delete-message');
+        for (let i = 0; i < message.length; i++) {
+            message[i].onclick = function () {
+                $.getJSON('{% url 'deleteRaceMessage' %}', {'id': message[i].getAttribute('value')}, (args) => {
+                    if (args.code === 1) {
+                        alert('删除成功！');
+                    } else {
+                        alert('赛题不存在或已删除！');
+                    }
+                })
+            }
+        }
+    })
+</script>
+</html>

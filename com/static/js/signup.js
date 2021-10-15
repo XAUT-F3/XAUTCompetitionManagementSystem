@@ -58,7 +58,7 @@ $(function () {
                 body[1].classList.add('active');
                 head[1].classList.add('active');
                 head[0].classList.remove('active');
-                type[0].checked = true;
+                type[0].checked = true;   // 参赛队员0为真
                 type[1].checked = false;
             }, function () {
                 layer.msg('请重新选择', {icon: 2});

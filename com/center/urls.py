@@ -9,4 +9,8 @@ urlpatterns = [
     path('changeSelf/', views.changeSelf, name='changeSelf'),
     path('changePassword/', views.changePassword, name='changePassword'),
     path('self/', views.self, name='self'),
+    path('deleteTeam/', views.deleteTeam, name='deleteTeam'),
+    path('submitMessage/', views.confirmSubmit, name='submitMessage'),
+    path('changeLeader/', views.changeLeader, name='changeLeader'),
+
 ]

@@ -32,7 +32,7 @@ class Honor(models.Model):
 class Race_Message(models.Model):
     m_name = models.CharField(max_length=30)  # 赛题名称
     m_content = models.TextField(null=True)  # 赛题内容
-    m_signup_requset = models.TextField(null=True)  # 报名要求
+    m_signup_request = models.TextField(null=True)  # 报名要求
     m_work_request = models.TextField(null=True)  # 作品要求
     m_race = models.IntegerField()
 
@@ -48,7 +48,7 @@ class Team(models.Model):
     T_remark = models.TextField(null=True)  # 团队备注
     T_leader = models.CharField(max_length=10)  # 队长名称
     T_phone = models.CharField(max_length=20)  # 队长手机号
-    T_state = models.CharField(max_length=20, null=True)  # 赛事状态
+    T_state = models.CharField(max_length=20, default='待提交')  # 赛事状态
     T_honor = models.CharField(max_length=20, null=True)  # 获奖情况
     T_message = models.IntegerField()
 
