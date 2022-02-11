@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>西安理工大学竞赛管理系统</title>
+    <meta name="description" content="西安理工大学统一竞赛管理平台">
+    <meta name="keywords" content="西安理工大学,竞赛管理,竞赛系统,西安理工大学竞赛管理系统">
+    <link rel="shortcut icon" href="../static/favicon.ico">
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/summernote-0.8.18-dist/summernote-lite.min.css">
+    <script src="../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        a {
+            color: #666;
+            text-decoration: none !important;
+        }
+
+        a:hover {
+            color: #409EFF;
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+<body>
+<!--登录模块-->
+<div class="container underline">
+    <div class="row align-self-center mx-auto head">
+        <div class="row col-md-4 padding">
+            <span>欢迎访问西安理工大学竞赛管理系统!</span>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-2">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    {% if is_login == 0 %}
+                    <a href="{% url 'login' %}">
+                        <button type="button" class="btn btn-primary blue-btn login-btn" id="layer-login"> 登录
+                        </button>
+                    </a>
+                    <!--button type="button" class="btn btn-default login-btn"> 注册 </button-->
+                    <a href="{% url 'signup' %}">
+                        <button type="button" class="btn btn-default login-btn"> 注册</button>
+                    </a>
+                    {% else %}
+                    <span class="login-state" style="margin-left: 20px">{{ users.u_name }}</span>
+                    <span class="login-state"><a href="{% url 'logout' %}">退出</a></span><br>
+                    <span class="login-state"><a href="/personalCenter/">【个人中心】</a></span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--导航栏模块-->
+<div class="container-fluid">
+
+    <nav class="navbar navbar-default" style="background-color: #ffffff; border: none; margin-bottom: 0">
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="put-img">
+                <a href="#"><img src="../static/images/campus.png" alt="#"></a>
+            </div>
+
+            <ul class="nav navbar-nav head-right">
+                <li><a href="#">大赛介绍</a></li>
+                <li><a href="{% url 'indexNews' %}">大赛动态</a></li>
+                <li><a href="#">风采展示</a></li>
+                <li><a href="#">主办单位</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">关于我们 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a href="{% url 'applyHome' %}">
+                <button type="button" class="btn btn-primary head-button blue-btn"> 我要报名</button>
+            </a>
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+<!-- 全屏轮播图 -->
+<div id="carousel-picture" class="carousel slide content-min-width"
+     data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-picture" data-slide-to="0"
+            class="active"></li>
+        <li data-target="#carousel-picture" data-slide-to="1"
+            class=""></li>
+        <li data-target="#carousel-picture" data-slide-to="2"
+            class=""></li>
+        <li data-target="#carousel-picture" data-slide-to="3"
+            class=""></li>
+        <li data-target="#carousel-picture" data-slide-to="4"
+            class=""></li>
+        <li data-target="#carousel-picture" data-slide-to="5"
+            class=""></li>
+    </ol>
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner content-min-width" role="listbox" style="height: 650px">
+        <div class="item active content-min-width">
+            <a target="_blank" href="#"
+               style="display: block;">
+                <img alt="" src="../static/images/temp01.JPG"
+                     style="width:100%;">
+            </a>
+        </div>
+        <div class="item  content-min-width">
+
+            <a target="_blank" href="#" style="display: block;">
+                <img alt="" src="../static/images/temp02.JPG"
+                     style="width:100%;">
+            </a>
+        </div>
+        <div class="item  content-min-width">
+
+            <a target="_blank" href="#" style="display: block;">
+                <img alt="" src="../static/images/temp03.JPG"
+                     style="width:100%;">
+            </a>
+        </div>
+        <div class="item  content-min-width">
+            <a target="_blank" href="#"
+               style="display: block;">
+                <img alt="" src="../static/images/temp04.JPG"
+                     style="width:100%;">
+            </a>
+        </div>
+
+        <div class="item  content-min-width">
+
+            <a target="_blank" href="#"
+               style="display: block;">
+                <img alt="" src="../static/images/temp05.JPG"
+                     style="width:100%;">
+            </a>
+        </div>
+        <div class="item  content-min-width">
+            <a target="_blank" href="#" style="display: block;">
+                <img alt="" src="../static/images/temp06.JPG"
+                     style="width:100%;">
+            </a>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-picture" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-picture" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<!--轮播图结束-->
+<!--报名-->
+<div class="container-fluid back-color">
+    <div class="row back-color">
+        <div class="col-md-6 ">
+            <div class="row" style="height: 300px">
+                <div class="col-md-4"></div>
+                <div class="col-md-6 padding-30">
+                    <a href="#">
+                        <div class="logo">
+                            <div class="glyphicon glyphicon-paperclip deep-back-color"></div>
+                            <div class="small-font">
+                                <span>了解大赛</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 ">
+            <div class="row">
+                <div class="col-md-4 "></div>
+                <div class="col-md-6 padding-30">
+                    <a href="{% url 'applyHome' %}">
+                        <div class="logo" style="text-decoration: none">
+                            <div class="glyphicon glyphicon-education deep-back-color"></div>
+                            <div class="small-font">
+                                <span>我要报名</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--报名结束-->
+<!--大赛动态-->
+<div class="container">
+    <div class="comp-update text-center">
+        <span>大赛动态</span>
+    </div>
+    <!--大赛动态具体内容-->
+    <div>
+        <div class="row">
+            <a href="https://www.baidu.com" class="que">
+                <div class="col-md-4 text-center comp-son">
+                    <img class="img-content" src="../static/images/temp01.JPG" alt="#">
+                    <div class="title">
+                        <span class="news-title"></span>
+                    </div>
+                    <div class="font">
+                        <span class="hid"></span>
+                    </div>
+                    <div class="date">
+                        <span class="news-date"></span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.baidu.com" class="que">
+                <div class="col-md-4 text-center comp-son">
+                    <img class="img-content" src="../static/images/temp02.JPG" alt="#">
+                    <div class="title">
+                        <span class="news-title"></span>
+                    </div>
+                    <div class="font">
+                        <span class="hid"></span>
+                    </div>
+                    <div class="date">
+                        <span class="news-date"></span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.baidu.com" class="que">
+                <div class="col-md-4 text-center comp-son">
+                    <img class="img-content" src="../static/images/temp03.JPG" alt="#">
+                    <div class="title">
+                        <span class="news-title"></span>
+                    </div>
+                    <div class="font">
+                        <span class="hid"></span>
+                    </div>
+                    <div class="date">
+                        <span class="news-date"></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="text-center btn-cor">
+        <a href="{% url 'indexNews' %}"><button type="button" class="btn btn-primary text-center blue-btn"> 了解更多</button></a>
+    </div>
+</div>
+<!--大赛动态结束-->
+<!--主题赛事开始-->
+<div class="container-fluid" style="background-color: #F8F8F8">
+    <div class="comp-update text-center">
+        <span>主题赛事</span>
+    </div>
+    <!--    具体的主题赛事-->
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/compete.png" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.1.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.2.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.3.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.4.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.5.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.6.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.7.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.8.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-2">
+            <a href="#"><img src="../static/images/1.9.PNG" alt="#" class="event-img"></a>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+<!--主题赛事结束-->
+<!--结尾-->
+<div class="container-fluid text-center bottom-all">版权所有：西安理工大学 陕ICP备05001616号</div>
+
+</body>
+<script>
+    $(document).ready(() => {
+        $.getJSON('{% url 'indexGetFrontNews' %}', {}, (args) => {
+            news = args.news;
+            let news_title = document.getElementsByClassName('news-title');
+            let news_date = document.getElementsByClassName('news-date');
+            let news_body = document.getElementsByClassName('hid');
+            let que = document.getElementsByClassName('que')
+            for (let i = 0; i < 3; i++) {
+                que[i].setAttribute("href", '{% url 'indexNews' %}' + news[i].id);
+                news_title[i].innerHTML = news[i].title;
+                news_date[i].innerHTML = news[i].time.replace('Z', '').replace('T', ' ').slice(0, -3);
+                news_body[i].innerHTML = news[i].context;
+                news_body[i].innerText = news_body[i].innerText.slice(0, 100).replace(/[\s\r\\n]/g, "") + '...'
+            }
+        }
+    )
+    })
+
+
+</script>
+<script src="../static/js/layer/layer.js"></script>
+<script src="../static/js/index.js"></script>
+
+</html>

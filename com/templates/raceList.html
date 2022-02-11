@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="Author" content="Lee">
+    <meta name="Keywords" content="后台模板">
+    <title></title>
+    <link rel="stylesheet" href="../../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../../static/css/public.css"/>
+    <script src="../../static/layui/layui.js"></script>
+</head>
+<body>
+
+<table class="layui-hide" id="LAY_table_user" lay-filter="news"></table>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail"><i class="layui-icon">&#xe615;</i> 查看详情 </a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i> 添加赛题 </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i> 删除比赛 </a>
+</script>
+<script>
+    layui.use(['table', 'jquery', 'element'], function () {
+        let table = layui.table;
+        let $ = layui.jquery;
+        table.render({
+            elem: '#LAY_table_user'
+            , url: '{% url 'getRaceList' %}'
+            , cellMinWidth: 80
+            , cols: [[
+                {field: 'id', title: 'ID', fixed: true, width: 80}
+                , {field: 'raceName', title: '比赛名称', width: 200}
+                , {field: 'startTime', title: '开始时间', width: 200}
+                , {field: 'endTime', title: '结束时间', width: 200}
+                , {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
+            ]]
+            , id: 'testReload'
+        });
+        table.on('tool(news)', function (obj) {
+            let data = obj.data;
+            let layEvent = obj.event;
+            let tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent === 'detail') { //查看
+                window.open('{% url 'raceUpdateDetails' %}' + '?id=' + data.id)
+            } else if (layEvent === 'del') { //删除
+                obj.del();
+                layer.msg(data.username + '删除')
+            } else if (layEvent === 'edit') { //编辑
+                window.open('{% url 'addMessageDetail' %}' + '?id=' + data.id)
+            }
+        });
+        var active = {
+            reload: function () {
+                var demoReload = $('#demoReload');
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        key: {
+                            id: demoReload.val()
+                        }
+                    }
+                });
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</html>

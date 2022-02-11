@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="Author" content="Lee">
+    <meta name="Keywords" content="后台模板">
+    <title></title>
+    <link rel="stylesheet" href="../../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../../static/css/public.css"/>
+    <script src="../../static/layui/layui.js"></script>
+    <script src="../../static/js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="box_sizing">
+    <div class="layui-form">
+        <div class="layui-inline inline_margin">
+            <div class="layui-input-inline">
+                <select name="modules" lay-verify="required" lay-search="" id="select-races">
+                    {% for race in raceName %}
+                        <option value="{{ race.id }}">{{ race.r_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button class="layui-btn" data-type="reload" id="select">选择</button>
+        <label for="demoReload">搜索：</label>
+        <div class="layui-inline inline_margin">
+            <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+        </div>
+        <button class="layui-btn" data-type="reload" id="search">搜索</button>
+        <div class="fr">
+            <a href="{% url 'getTeamListCSV' %}?race_id=1" id="for-csv">
+                <button class="layui-btn layui-btn-normal all_delete" data-type="reload"><i
+                        class="layui-icon">&#xe64c;</i>批量导出
+                </button>
+            </a>
+        </div>
+    </div>
+    <table class="layui-hide" id="LAY_table_user" lay-filter="news"></table>
+</div>
+
+</body>
+
+<script>
+    $.ajaxSetup({
+        async: false
+    });
+
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
+</script>
+<script>
+
+
+    let url = '{% url 'getTeamList' %}' + '?race_id=1';
+    modifyTable()
+    $('#select').on('click', () => {
+        let race_id = $('#select-races').val();
+        document.getElementById("for-csv").href = "{% url 'getTeamListCSV' %}" + '?race_id=' + race_id;
+        if (race_id !== '') {
+            url = '{% url 'getTeamList' %}' + '?race_id=' + race_id;
+            modifyTable();
+        }
+    })
+
+    function modifyTable() {
+        layui.use(['table', 'jquery', 'element'], function () {
+            var table = layui.table;
+            var $ = layui.jquery;
+
+            table.render({
+                elem: '#LAY_table_user'
+                , url: url
+                , cellMinWidth: 80
+                , cols: [[
+                    , {field: 'id', title: 'ID', fixed: true, width: 0}
+                    , {field: 'raceName', title: '所属赛道', width: 180}
+                    , {field: 'teamName', title: '队伍名称', width: 120}
+                    , {field: 'captain', title: '队长', width: 80}
+                    , {field: 'phone', title: '队长手机', width: 120}
+                    , {field: 'member', title: '成员', width: 180, flex: true}
+                    , {field: 'instructor', title: '指导老师', width: 120}
+                    , {field: 'state', title: '队伍状态', width: 120}
+                    , {field: 'honor', title: '荣誉', width: 120}
+                    , {fixed: 'right', title: '操作', minWidth: 220, align: 'center', toolbar: '#barDemo'}
+                ]]
+                , id: 'testReload'
+                , page: true
+            });
+            table.on('tool(news)', function (obj) {
+                let data = obj.data;
+                let layEvent = obj.event;
+                let tr = obj.tr; //获得当前行 tr 的DOM对象
+                if (layEvent === 'del') { //删除
+                    layer.confirm('您确定删除该队伍？', {
+                        btn: ['确定', '取消'] //按钮
+                    }, function () {
+                        obj.del()
+                        $.getJSON('{% url 'adminsDelTeam' %}', {'team_id': data.id}, (args) => {
+                            layer.msg(args.msgs);
+                        })
+                    });
+                } else if (layEvent === 'edit') { //编辑
+                    layer.msg(data.username + '编辑')
+                    window.open('../adminsDetailsTeam/' + data.id)
+                }
+            });
+            var active = {
+                reload: function () {
+                    var demoReload = $('#demoReload');
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            key: {
+                                id: demoReload.val()
+                            }
+                        }
+                    });
+                }
+            };
+            $('.demoTable .layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+    }
+</script>
+</html>

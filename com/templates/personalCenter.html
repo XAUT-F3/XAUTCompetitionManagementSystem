@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!--meta name="Author" content="Lee"-->
+    <meta name="Keywords" content="个人中心">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../static/css/public.css"/>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/layui/layui.js"></script>
+    <style>
+        .tu {
+            height: 80px;
+            width: 80px;
+        }
+        #anniu{
+            margin-left: 40px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">用户中心</div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">刷新</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">{{ users.u_name }}</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/">官网</a></dd>
+                    <dd><a href="/self/">修改个人信息</a></dd>
+                    <dd><a href="/changePassword/">修改个人密码</a></dd>
+                    <dd><a href="{% url 'logout' %}">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <!-- 侧边栏 -->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+
+            <div class="user_img">
+                <img src="../static/upfile/logo.png" class="tu"/>
+            </div>
+            <ul class="layui-nav layui-nav-tree" lay-filter="left-nav">
+
+                <li class="layui-nav-item">
+                    <a href="/personalCenter/"><i class="layui-icon">&#xe612;</i>我的赛事</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/self/"><i class="layui-icon">&#xe612;</i>修改个人资料</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/changePassword/"><i class="layui-icon">&#xe612;</i>修改密码</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 赛事主体 -->
+    <div class="layui-body">
+        <!-- 顶部切换卡 -->
+        <div class="layui-tab layui-tab-brief" lay-filter="top-tab" lay-allowClose="true" style="margin: 0;">
+            <ul class="layui-tab-title"></ul>
+            <div class="layui-tab-content" style="padding: 0;">
+                <div class="layui-progress" lay-filter="progress">
+                    <div class="layui-progress-bar" lay-percent="0%"></div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="anniu"><a href="/apply/" class="btn btn-primary btn-lg active" role="button">我要报名</a></div>
+        <br>
+        <br>
+        <div class="">
+            <table class="table table-striped">
+                <tr>
+                    <td>操作</td>
+                    <td>赛事名称</td>
+                    <td>参赛状态</td>
+                    <td>赛题</td>
+                    <td>团队名称</td>
+                    <td>队长姓名</td>
+                    <td>其他成员</td>
+                    <td>指导老师</td>
+                    <td>获奖情况</td>
+                </tr>
+                {% for teamMessage, raceMessageList, raceNameList, memberList, t_memberList in all1 %}
+                    <tr>
+                        <td>
+                            <button class="addMember btn btn-primary btn-sm">邀请队员</button>
+                            <button class="addTeacher btn btn-primary btn-sm">邀请老师</button>
+                            <button class="submit btn btn-success btn-sm" value="{{ teamMessage.id }}">提交报名</button>
+                            <button class="change-leader btn btn-warning btn-sm">变更队长</button>
+                            <button class="delete-team btn btn-danger btn-sm">解散队伍</button>
+                        </td>
+                        <td>{{ raceNameList.r_name }}</td>
+                        <td class="team-state">
+                            {{ teamMessage.T_state }}
+                        </td>
+                        <td>{{ raceMessageList.m_name }}</td>
+                        <td>{{ teamMessage.T_name }}</td>
+                        <td>{{ teamMessage.T_leader }}</td>
+                        <td>
+                            {% for member in memberList %}
+                                {{ member.s_name }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for t_member in t_memberList %}
+                                {{ t_member.t_name }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ teamMessage.T_honor }}</td>
+                    </tr>
+                {% endfor %}
+                {% for teamMessage2List, raceMessageList2, raceNameList2, memberList2, t_memberList2 in all2 %}
+                    <tr>
+                        <td></td>
+                        <td>{{ raceNameList2.r_name }}</td>
+                        <td class="team-state">{% if teamMessage2List.T_state == Zone %}
+                            待提交
+                        {% else %}
+                            {{ teamMessage.T_state }}
+                        {% endif %}
+                        </td>
+                        <td>{{ raceMessageList2.m_name }}</td>
+                        <td>{{ teamMessage2List.T_name }}</td>
+                        <td>{{ teamMessage2List.T_leader }}</td>
+                        <td>
+                            {% for member in memberList2 %}
+                                {{ member.s_name }}
+                            {% endfor %}
+                        </td>
+                        <td>{% for t_member in t_memberList2 %}
+                                {{ t_member.t_name }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ teamMessage2List.T_honor }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+<script src="../static/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    (localStorage.getItem('base')) ? document.getElementsByClassName('user_img')[0].setAttribute('src', localStorage.getItem('base')) : document.getElementsByClassName('user_img')[0].setAttribute('src', 'img/57.png');
+    layui.use(['layer', 'element'], function () {
+
+        let element = layui.element;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+
+        var navfilter = 'left-nav';
+        var nav = $('.layui-nav[lay-filter=' + navfilter + ']').eq(0);
+        var tabfilter = 'top-tab';
+        var tab = $('.layui-tab[lay-filter=' + tabfilter + ']').eq(0);
+        var tabcontent = tab.children('.layui-tab-content').eq(0);
+        var tabtitle = tab.children('.layui-tab-title').eq(0);
+        $(window).resize(function () {
+            //设置顶部切换卡容器度
+            tabcontent.css('height', $(this).height() - 70 - 41 - 44);
+            //tabcontent.height(); //头部高度 顶部切换卡高度 底部高度
+            //设置顶部切换卡容器内每个iframe高度
+            tabcontent.find('iframe').each(function () {
+                $(this).css('height', tabcontent.height());
+            });
+        }).resize();
+        $('.lock_btn').click(function () {
+            if ($('.lock_input').val() == 'admin') {
+                $('.logo_shard').fadeOut();
+                $('.lock_input').val('');
+            }
+        })
+        /**
+         * 监听侧边栏导航点击事件
+         */
+        var active = {
+            tabAdd: function (url, id, text) {
+                //新增一个Tab项
+                element.tabAdd('top-tab', {
+                    title: text //用于演示
+                    ,
+                    content: '<iframe data-frameid="' + id + '" frameborder="0" name="content" scrolling="yes" width="100%" src="' + url + '"></iframe>'
+                    ,
+                    id: id //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+            }
+            , tabChange: function (id) {
+                element.tabChange('top-tab', id); //切换到：用户管理
+                $("iframe[data-frameid='" + id + "']").attr("src", $("iframe[data-frameid='" + id + "']").attr("src"))//切换后刷新框架
+            }
+            , tabDelete: function (id) {
+                element.tabDelete("top-tab", id);//删除
+            }
+            , tabDeleteAll: function (ids) {//删除所有
+                $.each(ids, function (i, item) {
+                    element.tabDelete("top-tab", item);
+                })
+            }
+        };
+
+        element.on('tab(top-tab)', function (data) {
+            $('.layui-tab').show();
+            $('.admin_title').hide();
+            $('.layui-progress-bar').fadeOut();
+            element.progress('progress', '0%');
+            var _index = data.index;
+            $('iframe').stop().animate({opacity: 0, top: '30px'}, 300);
+            $('iframe').eq(_index).animate({opacity: 1, top: 0}, 300);
+            $('iframe').eq(_index).load(function () {
+                $('.layui-progress-bar').fadeIn();
+                element.progress('progress', '100%');
+                $('.layui-progress-bar').fadeOut(20);
+            })
+        });
+        element.on('tabDelete(top-tab)', function (data) {
+            if (tabtitle.find('li').length < 1) {
+                $('.layui-tab').hide();
+                $('.admin_title').show();
+            }
+        });
+        $(".left_nav").click(function () {
+            var dataid = $(this);
+            if ($(".layui-tab-title li[lay-id]").length <= 0) {
+                active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"), dataid.html());
+
+            } else {
+                var isData = false;
+                $.each($(".layui-tab-title li[lay-id]"), function () {
+                    if ($(this).attr("lay-id") === dataid.attr("data-id")) {
+                        isData = true;
+                    }
+                })
+                if (isData == false) {
+                    active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"), dataid.html());
+                }
+            }
+            active.tabChange(dataid.attr("data-id"));
+        })
+
+        document.addEventListener('keydown', function (e) {//锁屏监听alt+l
+            if (e.keyCode === 76 && 18) {
+                $('.logo_shard').fadeIn();
+            }
+        })
+        $('.user_img').click(function () {
+            layer.open({
+                anim: 5
+                , title: "更换头像"
+                , area: ['500px', '500px']
+                , type: 2
+                , content: 'drawImg.html' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            });
+
+        })
+
+    });
+
+    function imgAttr(url) {
+        document.getElementsByClassName('user_img')[0].setAttribute('src', url);
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg('更换成功');
+        })
+    }
+
+    let submit = document.querySelectorAll('.submit');
+    let addMember = document.querySelectorAll('.addMember');
+    let addTeacher = document.querySelectorAll('.addTeacher');
+    for (let i = 0; i < addMember.length; i++){
+        addMember[i].onclick =function getPage() {
+            let page = layer.open({
+                title: '请填写成员信息',
+                type: 1,
+                area: ['400px', '270px'],
+                shadeClose: true, //点击遮罩关闭
+                content: '    <div class="layui-form-item" style="margin-top: 20px">\n' +
+                    '        <label class="layui-form-label" style="width:100px;">成员姓名</label>\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input id="username" type="text" required lay-verify="required" placeholder="请输入" autocomplete="off"\n' +
+                    '                   class="layui-input" style="width: 220px">\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '    <div class="layui-form-item">\n' +
+                    '        <label class="layui-form-label" style="width:100px;">电话号码</label>\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input id="userPhone" type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off"\n' +
+                    '                   class="layui-input" style="width: 220px">\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '<button id="close" class="layui-btn layui-btn-primary layui-border-blue" style="margin-left: 120px; margin-top: 10px">取消</button>\n' +
+                    '<button id="makeSure" class="layui-btn layui-btn-normal" style="margin-left: 60px; margin-top: 10px">确认</button>'
+            });
+            $('#close').on('click', () => {
+                layer.close(page);
+            })
+            $('#makeSure').on('click', () => {
+                let type = 0;
+                let name = $('#username').val();
+                let phone = $('#userPhone').val();
+                let team_id = submit[i].getAttribute('value');
+
+                if (name.length === 0 || phone.length === 0) {
+                    layer.msg('填写信息不能为空！');
+                    return;
+                }
+                $.getJSON('{% url 'adminsAddMember' %}', {
+                    'phone': phone,
+                    'name': name,
+                    'team_id': team_id,
+                    'type': type
+                }, (data) => {
+                    layer.msg(data.msgs);
+                    if (data.code === 1)
+                        layer.close(page);
+
+                })
+            })
+        }
+    }
+    for (let i = 0; i < addTeacher.length; i++){
+        addTeacher[i].onclick =function getPage() {
+            let page = layer.open({
+                title: '请填写老师信息',
+                type: 1,
+                area: ['400px', '270px'],
+                shadeClose: true, //点击遮罩关闭
+                content: '    <div class="layui-form-item" style="margin-top: 20px">\n' +
+                    '        <label class="layui-form-label" style="width:100px;">老师姓名</label>\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input id="username" type="text" required lay-verify="required" placeholder="请输入" autocomplete="off"\n' +
+                    '                   class="layui-input" style="width: 220px">\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '    <div class="layui-form-item">\n' +
+                    '        <label class="layui-form-label" style="width:100px;">电话号码</label>\n' +
+                    '        <div class="layui-input-block">\n' +
+                    '            <input id="userPhone" type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off"\n' +
+                    '                   class="layui-input" style="width: 220px">\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '<button id="close" class="layui-btn layui-btn-primary layui-border-blue" style="margin-left: 120px; margin-top: 10px">取消</button>\n' +
+                    '<button id="makeSure" class="layui-btn layui-btn-normal" style="margin-left: 60px; margin-top: 10px">确认</button>'
+            });
+            $('#close').on('click', () => {
+                layer.close(page);
+            })
+            $('#makeSure').on('click', () => {
+                let type = 1;
+                let name = $('#username').val();
+                let phone = $('#userPhone').val();
+                let team_id = submit[i].getAttribute('value');
+
+                if (name.length === 0 || phone.length === 0) {
+                    layer.msg('填写信息不能为空！');
+                    return;
+                }
+                $.getJSON('{% url 'adminsAddMember' %}', {
+                    'phone': phone,
+                    'name': name,
+                    'team_id': team_id,
+                    'type': type
+                }, (data) => {
+                    layer.msg(data.msgs);
+                    if (data.code === 1)
+                        layer.close(page);
+
+                })
+            })
+        }
+    }
+
+
+
+    /*let submit = document.querySelectorAll('.submit');*/
+    let teamState = document.querySelectorAll('.team-state');
+    for (let i = 0; i < submit.length; i++) {
+        submit[i].onclick = function () {
+            $.getJSON('{% url 'submitMessage' %}', {'id': submit[i].getAttribute('value')}, (args) => {
+                if (args.code === 0) {
+                    layer.alert('提交成功！');
+                    submit[i].innerHTML = '已提交';
+                    teamState[i].innerHTML = args.state
+                } else {
+                    layer.alert('提交失败！');
+                }
+            })
+        }
+    }
+
+
+    let change_leader = document.querySelectorAll('.change-leader');
+    function getMemberList(id){
+        let res = '';
+    }
+    for (let i = 0; i < change_leader.length; i++){
+        change_leader[i].onclick =function change_Leader() {
+            let page = layer.open({
+                title: '变更队长',
+                type: 1,
+                area: ['400px', '270px'],
+                shadeClose: true, //点击遮罩关闭
+                content: '    <div class="layui-form-item" style="margin-top: 20px">\n' +
+                    '        <label class="layui-form-label">新队长</label>\n' +
+                    '<div class="layui-input-block">' +
+                    '<select class="form-control">' +
+                getMemberList(id)+
+                    {% comment %}{% for member in memberList %}
+                        '<option class="member-id" value='{{ member.id }}'>'{{ member.s_name }}'</option>'+
+                    {% endfor %}{% endcomment %}
+                    '</select>' +
+                    '    </div>\n' +
+                    '</div>' +
+                    '<button id="close" class="layui-btn layui-btn-primary layui-border-blue" style="margin-left: 120px; margin-top: 10px">取消</button>\n' +
+                    '<button id="makeSure" class="layui-btn layui-btn-normal" style="margin-left: 60px; margin-top: 10px">确认</button>'
+            })
+            $('#close').on('click', () => {
+                layer.close(page);
+            })
+            $('#makeSure').on('click', () => {
+                let id = $('.member-id').val()
+                    $.getJSON('{% url 'changeLeader' %}', {
+                        'sid': member_id[i].getAttribute('value'),
+                        'tid': submit[i].getAttribute('value'),
+                        },(data) => {
+                        if (data.code===0) {
+                            layer.close(page);
+                        }
+                        else {
+                            layer.alert("错误")
+                        }
+                        }
+                    )
+            })
+        }
+    }
+
+    let delete_team = document.querySelectorAll('.delete-team');
+    for (let i = 0; i < delete_team.length; i++){
+        delete_team[i].onclick =function delete_team() {
+            layer.confirm('您确定要删除队伍吗？', {
+              btn: ['确定','取消'] //按钮
+            }, function(){
+                $.getJSON('{% url 'deleteTeam' %}',{ 'tid':submit[i].getAttribute('value')},(data) =>{
+                    if(data.code===0){
+                        layer.msg('删除成功');
+                    }
+                    else{
+                        layer.msg('删除失败');
+                    }
+                })
+            }, function(){
+              layer.close();
+});
+        }}
+</script>
+
+
+</body>
+</html>

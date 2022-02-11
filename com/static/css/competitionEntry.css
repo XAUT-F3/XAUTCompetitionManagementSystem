@@ -1,0 +1,86 @@
+.background {
+    background-color: #578AD9;
+}
+.white-font {
+    color: #ffffff;
+    margin-top: 90px;
+}
+.white-font:hover {
+    color: #ffffff;
+}
+.plus {
+    margin-top: 70px;
+    font-size: 28px;
+    font-weight: 700;
+}
+#mar {
+    background-color: #578AD9;
+}
+.tell-font {
+    background-color: #ffffff;
+    color: #A94442;
+    padding-top: 5px;
+    height: 60px;
+    width: 1138px;
+    line-height: 25px;
+    margin-left: 185px;
+    padding-left: 50px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.nav-tabs {
+    margin-left: 200px;
+}
+.wid-mid {
+    width: 378px;
+    color: #ffffff;
+}
+.tab-content {
+    margin: 0 195px;
+}
+.font {
+    color: #fff;
+    width: 225px;
+}
+.null {
+    height: 40px;
+}
+.nave {
+    background-color: #578AD9;
+}
+.control-label {
+    margin-top: 20px;
+}
+.button-before {
+    margin-left: 400px;
+}
+.button-me {
+    width: 150px;
+    margin-top: 30px;
+}
+.form-group {
+    margin-top: 25px;
+}
+#messages, #settings{
+    padding-left: 100px;
+}
+.form-group label {
+    padding-left: 15px;
+}
+h3 {
+    padding-bottom: 5px;
+    padding-left: 10px;
+    color: #333333;
+    border-bottom: 2px solid #E9ECEF;
+}
+#invite-student, #invite-student span, #invite-teacher, #invite-teacher span {
+    font-size: 14px;
+}
+.for-table {
+    width: 800px;
+    margin-top: 15px;
+}
+.form-invite {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
